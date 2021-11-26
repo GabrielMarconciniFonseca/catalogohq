@@ -1,0 +1,56 @@
+.topo{
+    background-color: deeppink;
+
+}
+.cartao{
+    
+    position: absolute;
+    width: 40%;
+   margin-top: 10%;
+    left: 30%;
+    border: 2px solid;
+    height: 300px;
+    padding-top: 5px;
+
+
+    
+
+
+}
+.corpo{
+
+    display:flex ;
+    flex-direction:column;
+    align-items: center;
+
+
+}
+.btn{
+
+    margin-top:30px;
+}
+
+input{
+    border: none;
+    border-bottom: 1px solid;
+    text-align: center;
+    opacity:0.4;
+    
+
+}
+
+label{
+margin-top: 10px;
+
+
+}
+
+@media(max-width:700px ){
+.cartao{
+
+    border:none
+    
+    
+}
+
+}
