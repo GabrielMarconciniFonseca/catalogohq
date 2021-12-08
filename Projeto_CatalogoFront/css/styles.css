@@ -1,5 +1,18 @@
+
+
+*{
+
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    
+    }
+
+
+
+
+
+
 .topo{
-    background-color: deeppink;
+    background-color:rgb(230, 101, 15)
 
 }
 .cartao{
@@ -45,6 +58,120 @@ margin-top: 10px;
 
 }
 
+.menus{
+
+margin-right: 60px;
+color:white;
+
+}
+
+
+.dropitems{
+
+    margin-right: 10px;
+
+}
+
+
+.favoritos {
+    position: relative;
+    transform: translateY(-15%);
+    top: 50%;
+    
+}
+.favoritos p{
+
+    font-family: fantasy;
+}
+
+.cartoes{
+    
+display: flex;
+padding-top: 20px;
+justify-content:space-around;
+flex-wrap:wrap;
+
+
+
+}
+
+.cartao-lista{
+
+border: 1px solid lightgray;
+text-align: center;
+width:350px;
+max-height: 1000px;
+margin-top: 20px;
+flex-direction: column;
+padding-top: 20px;
+
+
+
+}
+
+.cartao-lista h3{
+
+   
+text-align: center;
+font-weight: bolder;
+
+}
+.cartao-lista p{
+
+ font-family:"Times New Roman", Times, serif;
+    
+text-align: left;
+margin-left: 7px;
+
+
+}
+
+
+
+img{
+
+
+border: 1px solid black ;
+
+
+
+}
+
+.btn-add{
+
+
+        height:100px;
+        width:100px;
+        background-color:rgb(230, 101, 15);
+        position:fixed;
+        right: 10px;
+        border-radius:60%;
+        bottom: 60px;
+        border: none;
+    
+
+
+
+}
+
+.titulo p {
+
+
+color:white;
+font-family: fantasy;
+    font-size: 60px;
+
+
+
+
+}
+
+
+
+
+
+
+
 @media(max-width:700px ){
 .cartao{
 
@@ -52,5 +179,7 @@ margin-top: 10px;
     
     
 }
+
+
 
 }
