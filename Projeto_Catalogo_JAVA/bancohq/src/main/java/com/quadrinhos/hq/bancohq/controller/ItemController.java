@@ -4,7 +4,7 @@ import com.quadrinhos.hq.bancohq.dto.ItemRequest;
 import com.quadrinhos.hq.bancohq.dto.ItemResponse;
 import com.quadrinhos.hq.bancohq.service.ItemService;
 import java.util.List;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
