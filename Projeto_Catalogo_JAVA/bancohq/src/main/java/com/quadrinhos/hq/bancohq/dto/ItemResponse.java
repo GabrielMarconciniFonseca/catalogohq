@@ -17,4 +17,5 @@ public class ItemResponse {
     private final BigDecimal price;
     private final LocalDate releaseDate;
     private final Integer stockQuantity;
+    private final String imageUrl;
 }

@@ -42,4 +42,7 @@ public class ItemRequest {
     @NotNull
     @PositiveOrZero
     private Integer stockQuantity;
+
+    @Size(max = 255)
+    private String imageUrl;
 }

@@ -16,20 +16,25 @@ function SearchBar({ filters, categories, onChange, isLoading }) {
           name="term"
           value={filters.term}
           onChange={handleChange}
-          placeholder="Busque por nome ou descrição"
+          placeholder="Busque por título, autor ou descrição"
+          aria-label="Buscar HQ por título, autor ou descrição"
         />
       </div>
       <div className="search-bar__field">
-        <label htmlFor="search-category">Categoria</label>
-        <select id="search-category" name="category" value={filters.category} onChange={handleChange}>
+        <label htmlFor="search-publisher">Editora</label>
+        <select id="search-publisher" name="publisher" value={filters.publisher} onChange={handleChange}>
           {categories.map((category) => (
             <option key={category} value={category}>
-              {category === 'todos' ? 'Todas as categorias' : category}
+              {category === 'todos' ? 'Todas as editoras' : category}
             </option>
           ))}
         </select>
       </div>
-      {isLoading && <span className="search-bar__status">Atualizando...</span>}
+      {isLoading && (
+        <span className="search-bar__status" role="status" aria-live="polite">
+          Atualizando...
+        </span>
+      )}
     </div>
   );
 }
@@ -37,7 +42,7 @@ function SearchBar({ filters, categories, onChange, isLoading }) {
 SearchBar.propTypes = {
   filters: PropTypes.shape({
     term: PropTypes.string,
-    category: PropTypes.string,
+    publisher: PropTypes.string,
   }).isRequired,
   categories: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,

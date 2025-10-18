@@ -17,6 +17,7 @@ public class ItemMapper {
                 .price(request.getPrice())
                 .releaseDate(request.getReleaseDate())
                 .stockQuantity(request.getStockQuantity())
+                .imageUrl(request.getImageUrl())
                 .build();
     }
 
@@ -28,6 +29,7 @@ public class ItemMapper {
         item.setPrice(request.getPrice());
         item.setReleaseDate(request.getReleaseDate());
         item.setStockQuantity(request.getStockQuantity());
+        item.setImageUrl(request.getImageUrl());
     }
 
     public ItemResponse toResponse(final Item item) {
@@ -40,6 +42,7 @@ public class ItemMapper {
                 .price(item.getPrice())
                 .releaseDate(item.getReleaseDate())
                 .stockQuantity(item.getStockQuantity())
+                .imageUrl(item.getImageUrl())
                 .build();
     }
 }
