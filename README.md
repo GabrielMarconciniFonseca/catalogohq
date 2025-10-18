@@ -37,3 +37,7 @@ Este repositório contém o catálogo de histórias em quadrinhos que será dese
    ```
 
 Esses passos garantem que os padrões de código estão sendo aplicados em ambos os módulos do projeto.
+
+## Documentação de domínio e API
+
+O documento [Modelo de domínio e API REST](docs/domain-model-and-api.md) detalha as entidades principais do catálogo, os relacionamentos, os endpoints REST sugeridos e o esquema inicial do banco de dados PostgreSQL, incluindo o script [`schema.sql`](Projeto_Catalogo_JAVA/bancohq/config/schema.sql) que pode ser usado como base para criação das tabelas.
