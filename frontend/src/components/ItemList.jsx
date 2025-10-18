@@ -22,12 +22,30 @@ function ItemList({ items, onSelectItem, isLoading, error }) {
     <ul className="item-list" aria-live="polite">
       {items.map((item) => (
         <li key={item.id}>
-          <button type="button" className="item-list__button" onClick={() => onSelectItem(item.id)}>
-            <div>
-              <h3>{item.name}</h3>
-              {item.category && <span className="item-list__tag">{item.category}</span>}
+          <button
+            type="button"
+            className="item-list__button"
+            onClick={() => onSelectItem(item.id)}
+            aria-label={`Ver detalhes de ${item.title}`}
+          >
+            <div className="item-list__thumb" aria-hidden={!item.imageUrl}>
+              {item.imageUrl ? (
+                <img src={item.imageUrl} alt={`Capa de ${item.title}`} loading="lazy" />
+              ) : (
+                <span className="item-list__thumb-fallback" aria-hidden="true">
+                  {item.title.charAt(0)}
+                </span>
+              )}
             </div>
-            <p>{item.description}</p>
+            <div className="item-list__content">
+              <h3>{item.title}</h3>
+              <p className="item-list__meta">
+                <span>{item.author}</span>
+                <span aria-hidden="true">•</span>
+                <span>{item.publisher ?? 'Editora não informada'}</span>
+              </p>
+              <p className="item-list__description">{item.description ?? 'Sem descrição cadastrada.'}</p>
+            </div>
           </button>
         </li>
       ))}
@@ -39,9 +57,11 @@ ItemList.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-      name: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      author: PropTypes.string.isRequired,
+      publisher: PropTypes.string,
       description: PropTypes.string,
-      category: PropTypes.string,
+      imageUrl: PropTypes.string,
     }),
   ).isRequired,
   onSelectItem: PropTypes.func.isRequired,

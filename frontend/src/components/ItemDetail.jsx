@@ -13,9 +13,17 @@ function ItemDetail({ item, isLoading }) {
   return (
     <article className="item-detail">
       <header>
-        <h2>{item.name}</h2>
-        {item.category && <span className="item-detail__category">{item.category}</span>}
+        <h2>{item.title}</h2>
+        <p className="item-detail__subtitle">
+          {item.author} · {item.publisher ?? 'Editora não informada'}
+        </p>
       </header>
+      {item.imageUrl && (
+        <figure className="item-detail__figure">
+          <img src={item.imageUrl} alt={`Capa da HQ ${item.title}`} loading="lazy" />
+          <figcaption>Capa enviada para a HQ selecionada</figcaption>
+        </figure>
+      )}
       <p className="item-detail__description">{item.description ?? 'Sem descrição disponível.'}</p>
       <dl className="item-detail__meta">
         {item.price != null && (
@@ -29,16 +37,22 @@ function ItemDetail({ item, isLoading }) {
             </dd>
           </div>
         )}
-        {item.stock != null && (
+        {item.stockQuantity != null && (
           <div>
             <dt>Estoque</dt>
-            <dd>{item.stock} unidades</dd>
+            <dd>{item.stockQuantity} unidades</dd>
           </div>
         )}
-        {item.sku && (
+        {item.releaseDate && (
           <div>
-            <dt>SKU</dt>
-            <dd>{item.sku}</dd>
+            <dt>Data de lançamento</dt>
+            <dd>
+              {new Intl.DateTimeFormat('pt-BR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+              }).format(new Date(item.releaseDate))}
+            </dd>
           </div>
         )}
       </dl>
@@ -49,12 +63,14 @@ function ItemDetail({ item, isLoading }) {
 ItemDetail.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    name: PropTypes.string,
-    category: PropTypes.string,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    publisher: PropTypes.string,
     description: PropTypes.string,
     price: PropTypes.number,
-    stock: PropTypes.number,
-    sku: PropTypes.string,
+    stockQuantity: PropTypes.number,
+    releaseDate: PropTypes.string,
+    imageUrl: PropTypes.string,
   }),
   isLoading: PropTypes.bool,
 };
