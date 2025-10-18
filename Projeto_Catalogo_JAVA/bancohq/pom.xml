@@ -13,9 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Banco HQ</name>
 	<description>Catalogo para colecionadores de HQs</description>
-	<properties>
-		<java.version>11</java.version>
-	</properties>
+        <properties>
+                <java.version>11</java.version>
+                <checkstyle.config.location>${project.basedir}/config/checkstyle/checkstyle.xml</checkstyle.config.location>
+                <checkstyle.failsOnError>true</checkstyle.failsOnError>
+        </properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,8 +69,27 @@
 					</excludes>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-checkstyle-plugin</artifactId>
+                                <version>3.3.1</version>
+                                <executions>
+                                        <execution>
+                                                <id>validate</id>
+                                                <phase>verify</phase>
+                                                <goals>
+                                                        <goal>check</goal>
+                                                </goals>
+                                        </execution>
+                                </executions>
+                                <configuration>
+                                        <configLocation>${checkstyle.config.location}</configLocation>
+                                        <consoleOutput>true</consoleOutput>
+                                        <failOnViolation>${checkstyle.failsOnError}</failOnViolation>
+                                </configuration>
+                        </plugin>
+                </plugins>
+        </build>
 
 </project>
 
