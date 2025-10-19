@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './SearchBar.css';
+import './styles.css';
 
 const STATUS_OPTIONS = [
   { value: 'todos', label: 'Todos os status' },

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ItemForm from '../ItemForm.jsx';
+import ItemForm from '../ItemForm';
 
 describe('ItemForm', () => {
   it('envia dados preenchidos', async () => {

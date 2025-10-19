@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import './ItemForm.css';
+import './styles.css';
 
 const INITIAL_VALUES = {
   title: '',

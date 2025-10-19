@@ -1,0 +1,17 @@
+<section class="import-csv" aria-label="Importar CSV">
+  <header class="import-csv__header">
+    <h2>Importar catálogo</h2>
+    <p>Faça upload do arquivo CSV exportado do seu sistema atual.</p>
+  </header>
+  <form class="import-csv__form">
+    <div class="import-csv__field">
+      <label for="csv-file">Arquivo CSV</label>
+      <input id="csv-file" name="file" type="file" accept=".csv" />
+    </div>
+    <div class="import-csv__actions">
+      <button type="submit" class="import-csv__button">Importar</button>
+      <button type="button" class="import-csv__button import-csv__button--secondary">Cancelar</button>
+    </div>
+    <p class="import-csv__status" role="status">Processando...</p>
+  </form>
+</section>

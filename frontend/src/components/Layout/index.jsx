@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './Layout.css';
+import './styles.css';
 
 function Layout({ children }) {
   return (
