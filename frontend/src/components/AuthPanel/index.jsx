@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
-import './AuthPanel.css';
+import { useAuth } from '../../context/AuthContext.jsx';
+import './styles.css';
 
 const MODES = {
   login: 'Entrar',

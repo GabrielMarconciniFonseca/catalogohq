@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './ItemList.css';
+import './styles.css';
 
 const STATUS_LABELS = {
   OWNED: 'Na coleção',
