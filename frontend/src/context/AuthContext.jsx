@@ -64,6 +64,13 @@ export function AuthProvider({ children }) {
     setAuthError(null);
   };
 
+  const loginWithGoogle = () => {
+    const url = import.meta.env.VITE_GOOGLE_AUTH_URL || '/api/auth/google';
+    if (typeof window !== 'undefined') {
+      window.location.href = url;
+    }
+  };
+
   const value = useMemo(
     () => ({
       user: session,
@@ -72,9 +79,10 @@ export function AuthProvider({ children }) {
       setError: setAuthError,
       login,
       register,
+      loginWithGoogle,
       logout,
     }),
-    [session, authError],
+    [session, authError, login, register, loginWithGoogle, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,13 +1,13 @@
 package com.quadrinhos.hq.bancohq.config;
 
 import com.quadrinhos.hq.bancohq.model.Item;
+import com.quadrinhos.hq.bancohq.model.ItemStatus;
 import com.quadrinhos.hq.bancohq.model.Role;
 import com.quadrinhos.hq.bancohq.model.UserAccount;
 import com.quadrinhos.hq.bancohq.repository.ItemRepository;
 import com.quadrinhos.hq.bancohq.repository.UserAccountRepository;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -26,34 +26,39 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(final String... args) {
-        if (itemRepository.count() > 0) {
-            initializeUsers();
-            return;
+        if (itemRepository.count() == 0) {
+            seedItems();
         }
+        initializeUsers();
+    }
+
+    private void seedItems() {
         List<Item> items = Arrays.asList(
                 Item.builder()
-                        .title("Homem-Aranha: De Volta ao Lar")
-                        .author("Stan Lee")
+                        .title("Homem-Aranha: Coleção Definitiva")
+                        .series("Homem-Aranha")
+                        .issueNumber("1")
                         .publisher("Marvel")
-                        .description("Edição especial do Homem-Aranha")
-                        .price(new BigDecimal("29.90"))
-                        .releaseDate(LocalDate.of(2017, 7, 5))
-                        .stockQuantity(10)
-                        .imageUrl(null)
+                        .language("Português")
+                        .condition("Excelente")
+                        .location("Estante A")
+                        .description("Edição de colecionador com capa dura e extras.")
+                        .status(ItemStatus.OWNED)
+                        .tags(new LinkedHashSet<>(List.of("marvel", "spider-man", "coleção")))
                         .build(),
                 Item.builder()
                         .title("Batman: Ano Um")
-                        .author("Frank Miller")
+                        .series("Batman")
+                        .issueNumber("1")
                         .publisher("DC Comics")
-                        .description("Clássico que redefine a origem do Batman")
-                        .price(new BigDecimal("34.90"))
-                        .releaseDate(LocalDate.of(1987, 2, 1))
-                        .stockQuantity(7)
-                        .imageUrl(null)
-                        .build()
-        );
+                        .language("Português")
+                        .condition("Bom")
+                        .location("Estante B")
+                        .description("Clássico que redefine a origem do Cavaleiro das Trevas.")
+                        .status(ItemStatus.WISHLIST)
+                        .tags(new LinkedHashSet<>(List.of("dc", "frank miller")))
+                        .build());
         itemRepository.saveAll(items);
-        initializeUsers();
     }
 
     private void initializeUsers() {

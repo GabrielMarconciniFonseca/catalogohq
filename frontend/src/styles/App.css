@@ -73,6 +73,12 @@ body {
   min-height: 400px;
 }
 
+.forms-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .form-placeholder {
   background: var(--color-surface-alt);
   border: 1px dashed var(--color-border);

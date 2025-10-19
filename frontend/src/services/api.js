@@ -47,9 +47,44 @@ export async function registerUser(payload) {
   }
 }
 
-export async function fetchItems() {
+function buildQuery(params) {
+  const searchParams = new URLSearchParams();
+  if (params.term) {
+    searchParams.set('term', params.term);
+  }
+  if (params.publisher && params.publisher !== 'todos') {
+    searchParams.set('publisher', params.publisher);
+  }
+  if (params.series && params.series !== 'todas') {
+    searchParams.set('series', params.series);
+  }
+  if (params.status && params.status !== 'todos') {
+    searchParams.set('status', params.status);
+  }
+  if (Array.isArray(params.tags) && params.tags.length) {
+    params.tags.forEach((tag) => {
+      if (tag.trim()) {
+        searchParams.append('tags', tag.trim());
+      }
+    });
+  }
+  const query = searchParams.toString();
+  return query ? `?${query}` : '';
+}
+
+export async function fetchItems(filters = {}) {
   try {
-    const response = await apiClient.get('/items');
+    const query = buildQuery(filters);
+    const response = await apiClient.get(`/items${query}`);
+    return response.data;
+  } catch (error) {
+    throw parseError(error);
+  }
+}
+
+export async function fetchWishlist() {
+  try {
+    const response = await apiClient.get('/items/wishlist');
     return response.data;
   } catch (error) {
     throw parseError(error);
@@ -68,6 +103,30 @@ export async function fetchItemById(id) {
 export async function createItem(formData) {
   try {
     const response = await apiClient.post('/items', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw parseError(error);
+  }
+}
+
+export async function updateItemStatus(id, status) {
+  try {
+    const response = await apiClient.patch(`/items/${id}/status`, { status });
+    return response.data;
+  } catch (error) {
+    throw parseError(error);
+  }
+}
+
+export async function importItemsCsv(file) {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await apiClient.post('/items/import', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

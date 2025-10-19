@@ -4,17 +4,27 @@ import './ItemForm.css';
 
 const INITIAL_VALUES = {
   title: '',
-  author: '',
+  series: '',
+  issueNumber: '',
   publisher: '',
-  price: '',
-  stockQuantity: '',
-  releaseDate: '',
+  language: '',
+  condition: '',
+  location: '',
   description: '',
+  status: 'OWNED',
+  tags: '',
   cover: null,
 };
 
+const STATUS_OPTIONS = [
+  { value: 'OWNED', label: 'Na coleção' },
+  { value: 'WISHLIST', label: 'Na wishlist' },
+  { value: 'ORDERED', label: 'Encomendado' },
+  { value: 'LENT', label: 'Emprestado' },
+];
+
 function ItemForm({ onSubmit, isSubmitting }) {
-  const [values, setValues] = useState(INITIAL_VALUES);
+  const [values, setValues] = useState({ ...INITIAL_VALUES });
   const [preview, setPreview] = useState(null);
   const [formError, setFormError] = useState('');
 
@@ -28,10 +38,9 @@ function ItemForm({ onSubmit, isSubmitting }) {
   const canSubmit = useMemo(
     () =>
       values.title.trim() &&
-      values.author.trim() &&
+      values.issueNumber.trim() &&
       values.publisher.trim() &&
-      values.price !== '' &&
-      values.releaseDate,
+      values.status,
     [values],
   );
 
@@ -54,9 +63,19 @@ function ItemForm({ onSubmit, isSubmitting }) {
   };
 
   const resetForm = () => {
-    setValues(INITIAL_VALUES);
+    setValues({ ...INITIAL_VALUES });
     setPreview(null);
     setFormError('');
+  };
+
+  const buildTags = () => {
+    if (!values.tags.trim()) {
+      return [];
+    }
+    const parts = values.tags.split(',');
+    return parts
+      .map((part) => part.trim())
+      .filter((part, index, self) => part && self.indexOf(part) === index);
   };
 
   const handleSubmit = async (event) => {
@@ -68,12 +87,15 @@ function ItemForm({ onSubmit, isSubmitting }) {
 
     const payload = {
       title: values.title.trim(),
-      author: values.author.trim(),
+      series: values.series.trim() || null,
+      issueNumber: values.issueNumber.trim(),
       publisher: values.publisher.trim(),
+      language: values.language.trim() || null,
+      condition: values.condition.trim() || null,
+      location: values.location.trim() || null,
       description: values.description.trim() || null,
-      price: Number(values.price),
-      releaseDate: values.releaseDate,
-      stockQuantity: values.stockQuantity ? Number(values.stockQuantity) : 0,
+      status: values.status,
+      tags: buildTags(),
       imageUrl: null,
     };
 
@@ -93,47 +115,58 @@ function ItemForm({ onSubmit, isSubmitting }) {
 
   return (
     <form className="item-form" onSubmit={handleSubmit} aria-label="Cadastro de HQ">
-      <h3>Cadastrar nova HQ</h3>
+      <h3>Cadastrar nova edição</h3>
       <div className="item-form__grid">
         <label className="item-form__field">
           <span>Título*</span>
           <input name="title" value={values.title} onChange={handleChange} placeholder="Título da HQ" required />
         </label>
         <label className="item-form__field">
-          <span>Autor*</span>
-          <input name="author" value={values.author} onChange={handleChange} placeholder="Nome do autor" required />
+          <span>Série</span>
+          <input name="series" value={values.series} onChange={handleChange} placeholder="Série ou arco" />
+        </label>
+        <label className="item-form__field">
+          <span>Número*</span>
+          <input name="issueNumber" value={values.issueNumber} onChange={handleChange} placeholder="Edição" required />
         </label>
         <label className="item-form__field">
           <span>Editora*</span>
           <input name="publisher" value={values.publisher} onChange={handleChange} placeholder="Editora" required />
         </label>
         <label className="item-form__field">
-          <span>Preço*</span>
-          <input
-            type="number"
-            name="price"
-            value={values.price}
-            onChange={handleChange}
-            step="0.01"
-            min="0"
-            placeholder="0,00"
-            required
-          />
+          <span>Idioma</span>
+          <input name="language" value={values.language} onChange={handleChange} placeholder="Português" />
         </label>
         <label className="item-form__field">
-          <span>Estoque</span>
-          <input
-            type="number"
-            name="stockQuantity"
-            value={values.stockQuantity}
-            onChange={handleChange}
-            min="0"
-            placeholder="0"
-          />
+          <span>Condição</span>
+          <input name="condition" value={values.condition} onChange={handleChange} placeholder="Nova, usada..." />
         </label>
         <label className="item-form__field">
-          <span>Data de lançamento*</span>
-          <input type="date" name="releaseDate" value={values.releaseDate} onChange={handleChange} required />
+          <span>Localização</span>
+          <input name="location" value={values.location} onChange={handleChange} placeholder="Estante ou caixa" />
+        </label>
+        <label className="item-form__field">
+          <span>Status*</span>
+          <select name="status" value={values.status} onChange={handleChange} required>
+            {STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="item-form__field">
+          <span>Tags</span>
+          <input
+            name="tags"
+            value={values.tags}
+            onChange={handleChange}
+            placeholder="separe com vírgula"
+            aria-describedby="tags-hint"
+          />
+          <small id="tags-hint" className="item-form__hint">
+            Ex.: marvel, capa dura, autografada
+          </small>
         </label>
         <label className="item-form__field item-form__field--file">
           <span>Capa (imagem)</span>
@@ -162,7 +195,7 @@ function ItemForm({ onSubmit, isSubmitting }) {
           value={values.description}
           onChange={handleChange}
           rows={4}
-          placeholder="Adicione uma breve descrição"
+          placeholder="Adicione observações, estado de conservação, etc"
         />
       </label>
       {formError && (
@@ -171,7 +204,7 @@ function ItemForm({ onSubmit, isSubmitting }) {
         </p>
       )}
       <button type="submit" className="item-form__submit" disabled={isSubmitting || !canSubmit}>
-        {isSubmitting ? 'Salvando...' : 'Salvar HQ'}
+        {isSubmitting ? 'Salvando...' : 'Salvar edição'}
       </button>
     </form>
   );
