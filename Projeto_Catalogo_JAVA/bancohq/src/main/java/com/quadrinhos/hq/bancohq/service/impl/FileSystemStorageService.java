@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -37,7 +37,11 @@ public class FileSystemStorageService implements FileStorageService {
         if (file == null || file.isEmpty()) {
             return null;
         }
-        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) {
+            throw new IllegalArgumentException("Nome do arquivo não pode ser nulo");
+        }
+        originalFilename = StringUtils.cleanPath(originalFilename);
         String extension = "";
         int extIndex = originalFilename.lastIndexOf('.');
         if (extIndex >= 0) {

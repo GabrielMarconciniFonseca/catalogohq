@@ -6,7 +6,7 @@ import com.quadrinhos.hq.bancohq.dto.RegisterRequest;
 import com.quadrinhos.hq.bancohq.model.UserAccount;
 import com.quadrinhos.hq.bancohq.security.JwtTokenProvider;
 import com.quadrinhos.hq.bancohq.service.UserService;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

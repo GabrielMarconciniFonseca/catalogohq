@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quadrinhos.hq.bancohq.dto.ItemRequest;
 import com.quadrinhos.hq.bancohq.model.Item;
 import com.quadrinhos.hq.bancohq.repository.ItemRepository;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,12 +67,11 @@ class ItemControllerIntegrationTest {
     void shouldUpdateItem() throws Exception {
         Item saved = itemRepository.save(Item.builder()
                 .title("Old Title")
-                .author("Author")
+                .series("Old Series")
+                .issueNumber("1")
                 .publisher("Publisher")
                 .description("Old Description")
-                .price(new BigDecimal("10.00"))
-                .releaseDate(LocalDate.of(2020, 1, 1))
-                .stockQuantity(2)
+                .status(com.quadrinhos.hq.bancohq.model.ItemStatus.OWNED)
                 .build());
 
         ItemRequest request = buildRequest();
@@ -96,12 +93,15 @@ class ItemControllerIntegrationTest {
     private ItemRequest buildRequest() {
         ItemRequest request = new ItemRequest();
         request.setTitle("Sample Item");
-        request.setAuthor("Author");
+        request.setSeries("Sample Series");
+        request.setIssueNumber("1");
         request.setPublisher("Publisher");
+        request.setLanguage("Portuguese");
+        request.setCondition("Very Fine");
+        request.setLocation("Shelf A");
         request.setDescription("Description");
-        request.setPrice(new BigDecimal("25.90"));
-        request.setReleaseDate(LocalDate.of(2022, 1, 1));
-        request.setStockQuantity(5);
+        request.setImageUrl("http://example.com/image.jpg");
+        request.setStatus(com.quadrinhos.hq.bancohq.model.ItemStatus.OWNED);
         return request;
     }
 }

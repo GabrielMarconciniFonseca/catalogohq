@@ -15,8 +15,6 @@ import com.quadrinhos.hq.bancohq.mapper.ItemMapper;
 import com.quadrinhos.hq.bancohq.model.Item;
 import com.quadrinhos.hq.bancohq.repository.ItemRepository;
 import com.quadrinhos.hq.bancohq.service.impl.ItemServiceImpl;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -46,22 +44,28 @@ class ItemServiceImplTest {
     void setUp() {
         request = new ItemRequest();
         request.setTitle("Sample");
-        request.setAuthor("Author");
+        request.setSeries("Sample Series");
+        request.setIssueNumber("1");
         request.setPublisher("Publisher");
+        request.setLanguage("Portuguese");
+        request.setCondition("Very Fine");
+        request.setLocation("Shelf A");
         request.setDescription("Description");
-        request.setPrice(new BigDecimal("19.90"));
-        request.setReleaseDate(LocalDate.now());
-        request.setStockQuantity(5);
+        request.setImageUrl("http://example.com/image.jpg");
+        request.setStatus(com.quadrinhos.hq.bancohq.model.ItemStatus.OWNED);
 
         entity = Item.builder()
                 .id(1L)
                 .title("Sample")
-                .author("Author")
+                .series("Sample Series")
+                .issueNumber("1")
                 .publisher("Publisher")
+                .language("Portuguese")
+                .condition("Very Fine")
+                .location("Shelf A")
                 .description("Description")
-                .price(new BigDecimal("19.90"))
-                .releaseDate(request.getReleaseDate())
-                .stockQuantity(5)
+                .imageUrl("http://example.com/image.jpg")
+                .status(com.quadrinhos.hq.bancohq.model.ItemStatus.OWNED)
                 .build();
     }
 
@@ -148,12 +152,16 @@ class ItemServiceImplTest {
         return ItemResponse.builder()
                 .id(item.getId())
                 .title(item.getTitle())
-                .author(item.getAuthor())
+                .series(item.getSeries())
+                .issueNumber(item.getIssueNumber())
                 .publisher(item.getPublisher())
+                .language(item.getLanguage())
+                .condition(item.getCondition())
+                .location(item.getLocation())
                 .description(item.getDescription())
-                .price(item.getPrice())
-                .releaseDate(item.getReleaseDate())
-                .stockQuantity(item.getStockQuantity())
+                .imageUrl(item.getImageUrl())
+                .status(item.getStatus())
+                .tags(item.getTags())
                 .build();
     }
 }

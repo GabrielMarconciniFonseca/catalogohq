@@ -2,11 +2,12 @@ package com.quadrinhos.hq.bancohq.security;
 
 import com.quadrinhos.hq.bancohq.service.UserService;
 import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.lang.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,15 +18,19 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
     private final UserService userService;
 
+    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, @Lazy UserService userService) {
+        this.tokenProvider = tokenProvider;
+        this.userService = userService;
+    }
+
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
-            final FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull final HttpServletRequest request, @NonNull final HttpServletResponse response,
+            @NonNull final FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {

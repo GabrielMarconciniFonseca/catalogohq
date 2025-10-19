@@ -3,7 +3,6 @@ package com.quadrinhos.hq.bancohq.mapper;
 import com.quadrinhos.hq.bancohq.dto.ItemRequest;
 import com.quadrinhos.hq.bancohq.dto.ItemResponse;
 import com.quadrinhos.hq.bancohq.model.Item;
-import java.util.Collections;
 import java.util.HashSet;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +10,13 @@ import org.springframework.stereotype.Component;
 public class ItemMapper {
 
     public Item toEntity(final ItemRequest request) {
+        HashSet<String> tags = new HashSet<String>();
+        if (request.getTags() != null) {
+            for (String tag : request.getTags()) {
+                tags.add(tag);
+            }
+        }
+        
         return Item.builder()
                 .title(normalize(request.getTitle()))
                 .series(normalize(request.getSeries()))
@@ -22,11 +28,18 @@ public class ItemMapper {
                 .description(normalize(request.getDescription()))
                 .imageUrl(normalize(request.getImageUrl()))
                 .status(request.getStatus())
-                .tags(new HashSet<>(defaultTags(request)))
+                .tags(tags)
                 .build();
     }
 
     public void updateEntity(final Item item, final ItemRequest request) {
+        HashSet<String> tags = new HashSet<String>();
+        if (request.getTags() != null) {
+            for (String tag : request.getTags()) {
+                tags.add(tag);
+            }
+        }
+        
         item.setTitle(normalize(request.getTitle()));
         item.setSeries(normalize(request.getSeries()));
         item.setIssueNumber(normalize(request.getIssueNumber()));
@@ -37,7 +50,7 @@ public class ItemMapper {
         item.setDescription(normalize(request.getDescription()));
         item.setImageUrl(normalize(request.getImageUrl()));
         item.setStatus(request.getStatus());
-        item.setTags(new HashSet<>(defaultTags(request)));
+        item.setTags(tags);
     }
 
     public ItemResponse toResponse(final Item item) {
@@ -63,12 +76,5 @@ public class ItemMapper {
         }
         String trimmed = value.trim();
         return trimmed.isEmpty() ? null : trimmed;
-    }
-
-    private static Iterable<String> defaultTags(final ItemRequest request) {
-        if (request.getTags() == null) {
-            return Collections.emptySet();
-        }
-        return request.getTags();
     }
 }

@@ -5,7 +5,7 @@ import com.quadrinhos.hq.bancohq.model.Role;
 import com.quadrinhos.hq.bancohq.model.UserAccount;
 import com.quadrinhos.hq.bancohq.repository.UserAccountRepository;
 import com.quadrinhos.hq.bancohq.service.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,12 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserAccountRepository userAccountRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserAccountRepository userAccountRepository, @Lazy PasswordEncoder passwordEncoder) {
+        this.userAccountRepository = userAccountRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
