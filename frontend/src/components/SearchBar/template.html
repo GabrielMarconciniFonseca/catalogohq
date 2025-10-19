@@ -1,0 +1,38 @@
+<div class="search-bar">
+  <div class="search-bar__field">
+    <label for="search-term">Buscar</label>
+    <input
+      id="search-term"
+      name="term"
+      placeholder="Busque por título, série, editora ou localização"
+      aria-label="Buscar HQ"
+    />
+  </div>
+  <div class="search-bar__field">
+    <label for="search-publisher">Editora</label>
+    <select id="search-publisher" name="publisher">
+      <option value="todos">Todas as editoras</option>
+    </select>
+  </div>
+  <div class="search-bar__field">
+    <label for="search-series">Série</label>
+    <select id="search-series" name="series">
+      <option value="todas">Todas as séries</option>
+    </select>
+  </div>
+  <div class="search-bar__field">
+    <label for="search-status">Status</label>
+    <select id="search-status" name="status">
+      <option value="todos">Todos os status</option>
+      <option value="OWNED">Na coleção</option>
+      <option value="WISHLIST">Wishlist</option>
+      <option value="ORDERED">Encomendado</option>
+      <option value="LENT">Emprestado</option>
+    </select>
+  </div>
+  <div class="search-bar__field">
+    <label for="search-tags">Tags</label>
+    <input id="search-tags" name="tags" placeholder="Ex.: marvel, capa dura" />
+  </div>
+  <span class="search-bar__status" role="status" aria-live="polite">Atualizando...</span>
+</div>

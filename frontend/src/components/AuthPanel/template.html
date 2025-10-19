@@ -1,0 +1,44 @@
+<!-- Estado autenticado -->
+<div class="auth-panel auth-panel--welcome" aria-live="polite">
+  <p>
+    <strong>Nome da Pessoa</strong>
+    <span>Conectado como usuario</span>
+  </p>
+  <button type="button" class="auth-panel__button">Sair</button>
+</div>
+
+<!-- Estado login/registro -->
+<section class="auth-panel" aria-label="Autenticação">
+  <header class="auth-panel__header">
+    <h2>Acesse sua conta</h2>
+    <div class="auth-panel__switcher" role="tablist" aria-label="Alternar entre login e cadastro">
+      <button type="button" role="tab" aria-selected="true" class="auth-panel__tab auth-panel__tab--active">
+        Entrar
+      </button>
+      <button type="button" role="tab" aria-selected="false" class="auth-panel__tab">
+        Criar conta
+      </button>
+    </div>
+  </header>
+  <form class="auth-panel__form" aria-live="assertive">
+    <div class="auth-panel__field">
+      <label for="auth-username">Usuário</label>
+      <input id="auth-username" name="username" autocomplete="username" required minlength="3" />
+    </div>
+    <div class="auth-panel__field">
+      <label for="auth-full-name">Nome completo</label>
+      <input id="auth-full-name" name="fullName" autocomplete="name" required minlength="3" />
+    </div>
+    <div class="auth-panel__field">
+      <label for="auth-password">Senha</label>
+      <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="6" />
+    </div>
+    <footer class="auth-panel__footer">
+      <button type="submit" class="auth-panel__button">Entrar</button>
+      <button type="button" class="auth-panel__button auth-panel__button--secondary">
+        Continuar com Google
+      </button>
+    </footer>
+    <p class="auth-panel__error" role="alert">Mensagem de erro</p>
+  </form>
+</section>
