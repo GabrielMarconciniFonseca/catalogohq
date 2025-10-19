@@ -12,7 +12,7 @@ Write-Host "✅ Variáveis de ambiente configuradas" -ForegroundColor Green
 # Iniciar o frontend em uma nova janela
 Write-Host "🚀 Iniciando Frontend React..." -ForegroundColor Yellow
 $frontendScript = @"
-Set-Location 'C:\Users\Gabriel\OneDrive\Área de Trabalho\catalogohq'
+Set-Location 'e:\Develop\catalogohq'
 `$env:NODEJS_HOME = 'C:\node-v20.18.0-win-x64'
 `$env:PATH = "`$env:NODEJS_HOME;`$env:PATH"
 `$frontendPath = Join-Path (Get-Location) 'frontend'
