@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import AuthPanel from './components/AuthPanel.jsx';
-import Feedback from './components/Feedback.jsx';
-import ImportCsvForm from './components/ImportCsvForm.jsx';
-import ItemDetail from './components/ItemDetail.jsx';
-import ItemForm from './components/ItemForm.jsx';
-import ItemList from './components/ItemList.jsx';
-import Layout from './components/Layout.jsx';
-import SearchBar from './components/SearchBar.jsx';
+import AuthPanel from './components/AuthPanel';
+import Feedback from './components/Feedback';
+import ImportCsvForm from './components/ImportCsvForm';
+import ItemDetail from './components/ItemDetail';
+import ItemForm from './components/ItemForm';
+import ItemList from './components/ItemList';
+import Layout from './components/Layout';
+import SearchBar from './components/SearchBar';
 import { useAuth } from './context/AuthContext.jsx';
 import {
   createItem,

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ItemList from '../ItemList.jsx';
+import ItemList from '../ItemList';
 
 const ITEMS = [
   { id: 1, name: 'Item A', description: 'Primeiro item', category: 'HQ' },
