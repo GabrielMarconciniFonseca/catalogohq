@@ -1,7 +1,7 @@
 package com.quadrinhos.hq.bancohq.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import com.quadrinhos.hq.bancohq.model.ItemStatus;
+import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,11 +11,14 @@ public class ItemResponse {
 
     private final Long id;
     private final String title;
-    private final String author;
+    private final String series;
+    private final String issueNumber;
     private final String publisher;
+    private final String language;
+    private final String condition;
+    private final String location;
     private final String description;
-    private final BigDecimal price;
-    private final LocalDate releaseDate;
-    private final Integer stockQuantity;
     private final String imageUrl;
+    private final ItemStatus status;
+    private final Set<String> tags;
 }

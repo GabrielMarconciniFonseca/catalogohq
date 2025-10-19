@@ -8,7 +8,7 @@ const MODES = {
 };
 
 function AuthPanel() {
-  const { isAuthenticated, user, login, register, logout, error, setError } = useAuth();
+  const { isAuthenticated, user, login, register, loginWithGoogle, logout, error, setError } = useAuth();
   const [mode, setMode] = useState('login');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -132,6 +132,16 @@ function AuthPanel() {
         )}
         <button type="submit" className="auth-panel__button" disabled={isSubmitting}>
           {isSubmitting ? 'Enviando...' : MODES[mode]}
+        </button>
+        <div className="auth-panel__divider" role="presentation">
+          <span>ou</span>
+        </div>
+        <button
+          type="button"
+          className="auth-panel__button auth-panel__button--google"
+          onClick={loginWithGoogle}
+        >
+          Entrar com Google
         </button>
       </form>
     </section>
