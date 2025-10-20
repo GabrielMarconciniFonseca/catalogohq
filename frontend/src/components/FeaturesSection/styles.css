@@ -1,0 +1,226 @@
+/* Features Section Component - Replicando design do Figma */
+.features-section {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  padding: 80px 156px 0px;
+  width: 100%;
+  min-height: 686px;
+  background: #FFFFFF;
+}
+
+/* Header com fundo gradiente */
+.features-section__header {
+  position: relative;
+  height: 208px;
+  background: linear-gradient(135deg, rgba(21, 93, 252, 1) 0%, rgba(152, 16, 250, 1) 50%, rgba(20, 71, 230, 1) 100%);
+  border-radius: 16px;
+  box-shadow: 0px 0px 50px 0px rgba(139, 92, 246, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 32px;
+}
+
+.features-section__title {
+  margin: 0 0 16px 0;
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.5em;
+  color: #FFFFFF;
+}
+
+.features-section__subtitle {
+  margin: 0;
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.5em;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 672px;
+}
+
+/* Grid de recursos */
+.features-section__grid {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  height: 254px;
+  width: 100%;
+}
+
+.features-section__card {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 24px 0px 24px 24px;
+  background: #FFFFFF;
+  border: 1px solid #F3F4F6;
+  border-radius: 14px;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+/* Ajustes específicos para cada card baseado no layout do Figma */
+.features-section__card:nth-child(1) {
+  /* Upload de Capas */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.features-section__card:nth-child(2) {
+  /* Importação CSV */
+  border-radius: 0;
+  border-left: none;
+}
+
+.features-section__card:nth-child(3) {
+  /* Busca Avançada */
+  border-radius: 0;
+  border-left: none;
+  padding: 24px 0px 0px 24px;
+}
+
+.features-section__card:nth-child(4) {
+  /* Segurança */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+}
+
+.features-section__card-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(21, 93, 252, 1) 0%, rgba(152, 16, 250, 1) 100%);
+  border-radius: 14px;
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.features-section__card-icon img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* Tornar ícones brancos */
+}
+
+.features-section__card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 230px;
+  flex: 1;
+}
+
+.features-section__card-title {
+  margin: 0;
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5em;
+  color: #101828;
+  height: 24px;
+}
+
+.features-section__card-description {
+  margin: 0;
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4285714285714286em;
+  color: #4A5565;
+  flex: 1;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .features-section {
+    padding: 60px 32px 0px;
+    gap: 48px;
+  }
+  
+  .features-section__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    height: auto;
+  }
+  
+  .features-section__card {
+    border-radius: 14px !important;
+    border: 1px solid #F3F4F6 !important;
+    padding: 24px;
+  }
+  
+  .features-section__header {
+    height: auto;
+    padding: 32px 24px;
+  }
+  
+  .features-section__subtitle {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-section {
+    padding: 40px 16px 0px;
+    gap: 32px;
+  }
+  
+  .features-section__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: auto;
+  }
+  
+  .features-section__card {
+    border-radius: 14px !important;
+    border: 1px solid #F3F4F6 !important;
+    padding: 24px;
+  }
+  
+  .features-section__title {
+    font-size: 20px;
+  }
+  
+  .features-section__subtitle {
+    font-size: 16px;
+  }
+  
+  .features-section__card-content {
+    width: 100%;
+  }
+  
+  .features-section__header {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-section {
+    padding: 32px 16px 0px;
+  }
+  
+  .features-section__title {
+    font-size: 18px;
+  }
+  
+  .features-section__subtitle {
+    font-size: 14px;
+  }
+  
+  .features-section__card-title {
+    font-size: 14px;
+  }
+  
+  .features-section__card-description {
+    font-size: 12px;
+  }
+}

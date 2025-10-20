@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import AuthPanel from './components/AuthPanel';
+import ModalAuth from './components/ModalAuth';
 import Feedback from './components/Feedback';
+import FeaturesSection from './components/FeaturesSection';
+import HeroSection from './components/HeroSection';
+import HowItWorksSection from './components/HowItWorksSection';
 import ImportCsvForm from './components/ImportCsvForm';
 import ItemDetail from './components/ItemDetail';
 import ItemForm from './components/ItemForm';
@@ -26,12 +29,14 @@ const DEFAULT_FILTERS = {
 };
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [items, setItems] = useState([]);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [currentEditingItem, setCurrentEditingItem] = useState(null);
   const [status, setStatus] = useState({ state: 'idle', message: '' });
   const [error, setError] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -159,56 +164,163 @@ function App() {
     setFilters((prev) => ({ ...prev, ...nextFilters }));
   };
 
+  const handleSaveItem = async (itemData) => {
+    setStatus({ state: 'loading', message: 'Salvando item...' });
+    try {
+      await createItem(itemData);
+      const data = await fetchItems();
+      setItems(data);
+      setCurrentEditingItem(null);
+      setStatus({ state: 'success', message: 'Item salvo com sucesso.' });
+    } catch (err) {
+      setError(err);
+      setStatus({ state: 'error', message: err.message ?? 'Não foi possível salvar o item.' });
+    }
+  };
+
+  const handleLoginClick = () => {
+    setIsAuthModalOpen(true);
+  };
+
+  const handleAuthClose = () => {
+    setIsAuthModalOpen(false);
+  };
+
+  const handleAuth = (payload) => {
+    // payload can be { email, password, mode } or { provider: 'google' }
+    console.log('Auth payload', payload);
+    // TODO: call real auth service
+    setIsAuthModalOpen(false);
+  };
+
   return (
-    <Layout>
-      <header className="app-header" role="banner">
-        <div className="app-header__intro">
-          <h1>Catálogo HQ</h1>
-          <p>
-            Visualize e gerencie sua coleção de HQs com autenticação segura, upload de capas, importação CSV e interface otimizada
-            para acessibilidade e Core Web Vitals.
-          </p>
-        </div>
-        <AuthPanel />
-      </header>
-      <main className="app-main" id="conteudo-principal" aria-live="polite">
-        <section className="list-section" aria-label="Listagem de itens">
-          <SearchBar
-            filters={filters}
-            publishers={publishers}
-            seriesOptions={seriesOptions}
-            onChange={handleFilterChange}
-            isLoading={status.state === 'loading'}
-          />
-          <ItemList
-            items={filteredItems}
-            onSelectItem={handleSelectItem}
-            isLoading={status.state === 'loading' && !selectedItem}
-            error={error}
-          />
-        </section>
-        <section className="details-section" aria-label="Detalhes do item selecionado">
-          <ItemDetail
-            item={selectedItem}
-            isLoading={status.state === 'loading'}
-            onUpdateStatus={isAuthenticated ? handleStatusChange : null}
-          />
-          {isAuthenticated ? (
-            <div className="forms-stack">
-              <ItemForm onSubmit={handleCreateItem} isSubmitting={status.state === 'loading'} />
-              <ImportCsvForm onImport={handleImportCsv} isImporting={status.state === 'loading'} />
-            </div>
-          ) : (
-            <div className="form-placeholder" role="note">
-              <h3>Faça login para cadastrar novas HQs</h3>
-              <p>
-                Autentique-se para liberar o formulário de cadastro, importar planilhas CSV e manter o catálogo sempre atualizado.
-              </p>
-            </div>
-          )}
-        </section>
-      </main>
-      <Feedback status={status} />
+    <Layout 
+      onLoginClick={handleLoginClick}
+      isAuthenticated={isAuthenticated}
+      userName={user?.name}
+    >
+      <div className="app">
+        {isAuthenticated ? (
+          <>
+            <header className="app-header">
+              <div className="app-header__container">
+                <div className="app-header__brand">
+                  <div className="app-header__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 7V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <rect x="2" y="3" width="20" height="18" rx="2" stroke="currentColor" strokeWidth="2" fill="none"/>
+                    </svg>
+                  </div>
+                  <h1 className="app-header__title">HQ Catalog</h1>
+                </div>
+                <div className="app-header__search">
+                  <SearchBar
+                    filters={filters}
+                    publishers={publishers}
+                    seriesOptions={seriesOptions}
+                    onChange={handleFilterChange}
+                    isLoading={status.state === 'loading'}
+                  />
+                </div>
+                <div className="app-header__actions">
+                  <ImportCsvForm onImport={handleImportCsv} isImporting={status.state === 'loading'} />
+                  <button type="button" className="app-header__add-button" onClick={() => setCurrentEditingItem({})}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M8 3.33V8.67M5.33 2V5.33M5.33 8.67V10" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </header>
+            <main className="app-main" id="conteudo-principal">
+              <div className="app-filters">
+                <div className="filter-tabs">
+                  <button 
+                    type="button" 
+                    className={`filter-tab ${filters.status === 'todos' ? 'filter-tab--active' : ''}`}
+                    onClick={() => handleFilterChange({ status: 'todos' })}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <rect x="2" y="2" width="4.67" height="4.67" fill="currentColor"/>
+                      <rect x="9.33" y="2" width="4.67" height="4.67" fill="currentColor"/>
+                      <rect x="9.33" y="9.33" width="4.67" height="4.67" fill="currentColor"/>
+                      <rect x="2" y="9.33" width="4.67" height="4.67" fill="currentColor"/>
+                    </svg>
+                    Todas ({items.length})
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`filter-tab ${filters.status === 'OWNED' ? 'filter-tab--active' : ''}`}
+                    onClick={() => handleFilterChange({ status: 'OWNED' })}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M6.67 1.33H4M2.67 1.33H13.33V13.33" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
+                    </svg>
+                    Coleção ({items.filter(item => item.status === 'OWNED').length})
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`filter-tab ${filters.status === 'WISHLIST' ? 'filter-tab--active' : ''}`}
+                    onClick={() => handleFilterChange({ status: 'WISHLIST' })}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M1.33 2.66L13.33 11.34" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
+                    </svg>
+                    Wishlist ({items.filter(item => item.status === 'WISHLIST').length})
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`filter-tab ${filters.status === 'READING' ? 'filter-tab--active' : ''}`}
+                    onClick={() => handleFilterChange({ status: 'READING' })}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M8 4.67V9.33M1.33 2V12" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
+                    </svg>
+                    Lendo ({items.filter(item => item.status === 'READING').length})
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`filter-tab ${filters.status === 'COMPLETED' ? 'filter-tab--active' : ''}`}
+                    onClick={() => handleFilterChange({ status: 'COMPLETED' })}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M1.33 1.33L13.33 13.33M6 6.67L4 2.67" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
+                    </svg>
+                    Completos ({items.filter(item => item.status === 'COMPLETED').length})
+                  </button>
+                </div>
+              </div>
+              <div className="app-content">
+                <p className="results-count">
+                  {filteredItems.length} HQs encontradas
+                </p>
+                <ItemList
+                  items={filteredItems}
+                  onSelectItem={handleSelectItem}
+                  isLoading={status.state === 'loading' && !selectedItem}
+                  error={error}
+                />
+              </div>
+            </main>
+            {selectedItem && (
+              <ItemDetail
+                item={selectedItem}
+                isLoading={status.state === 'loading'}
+                onUpdateStatus={isAuthenticated ? handleStatusChange : null}
+              />
+            )}
+          </>
+        ) : (
+          <div className="app-login">
+            <HeroSection onGetStarted={() => setIsAuthModalOpen(true)} />
+            <FeaturesSection />
+            <HowItWorksSection />
+            
+            <ModalAuth isOpen={isAuthModalOpen} onClose={handleAuthClose} onLogin={handleAuth} />
+          </div>
+        )}
+        <Feedback status={status} />
+      </div>
     </Layout>
   );
 }

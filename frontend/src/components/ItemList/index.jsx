@@ -1,13 +1,6 @@
 import PropTypes from 'prop-types';
 import './styles.css';
 
-const STATUS_LABELS = {
-  OWNED: 'Na coleção',
-  WISHLIST: 'Wishlist',
-  ORDERED: 'Encomendado',
-  LENT: 'Emprestado',
-};
-
 function ItemList({ items, onSelectItem, isLoading, error }) {
   if (isLoading) {
     return <p className="item-list__placeholder">Carregando listagem...</p>;
@@ -26,49 +19,62 @@ function ItemList({ items, onSelectItem, isLoading, error }) {
   }
 
   return (
-    <ul className="item-list" aria-live="polite">
+    <div className="item-list">
       {items.map((item) => (
-        <li key={item.id}>
-          <button
-            type="button"
-            className="item-list__button"
-            onClick={() => onSelectItem(item.id)}
-            aria-label={`Ver detalhes de ${item.title}`}
-          >
-            <div className="item-list__thumb" aria-hidden={!item.imageUrl}>
+        <div key={item.id} className="comic-card">
+          <div className="comic-card__image-container">
+            <div className="comic-card__image">
               {item.imageUrl ? (
                 <img src={item.imageUrl} alt={`Capa de ${item.title}`} loading="lazy" />
               ) : (
-                <span className="item-list__thumb-fallback" aria-hidden="true">
-                  {item.title.charAt(0)}
-                </span>
+                <div className="comic-card__image-fallback">
+                  <span>Sem imagem</span>
+                </div>
               )}
             </div>
-            <div className="item-list__content">
-              <div className="item-list__header">
-                <h3>{item.title}</h3>
-                <span className={`item-list__badge item-list__badge--${item.status ? item.status.toLowerCase() : 'owned'}`}>
-                  {STATUS_LABELS[item.status] ?? 'Na coleção'}
-                </span>
-              </div>
-              <p className="item-list__meta">
-                {item.series ? `${item.series} · ` : ''}Edição #{item.issueNumber}
-              </p>
-              <p className="item-list__description">
-                {item.publisher ?? 'Editora não informada'} • {item.language ?? 'Idioma não informado'}
-              </p>
-              {item.tags?.length ? (
-                <ul className="item-list__tags" aria-label="Tags da edição">
-                  {item.tags.map((tag) => (
-                    <li key={tag}>#{tag}</li>
-                  ))}
-                </ul>
-              ) : null}
+            
+            <div className={`comic-card__badge comic-card__badge--${item.status?.toLowerCase() || 'owned'}`}>
+              <span>{item.status || 'OWNED'}</span>
             </div>
-          </button>
-        </li>
+          </div>
+
+          <div className="comic-card__content">
+            <div className="comic-card__header">
+              <h3 className="comic-card__title">{item.title}</h3>
+              <p className="comic-card__subtitle">
+                {item.series ? `${item.series} • #${item.issue || '1'}` : `#${item.issue || '1'}`}
+              </p>
+            </div>
+
+            <div className="comic-card__info">
+              <div className="comic-card__publisher-year">
+                <span>{item.publisher || 'Editora desconhecida'}</span>
+                <span>{item.year || new Date().getFullYear()}</span>
+              </div>
+
+              <div className="comic-card__rating">
+                <span className="comic-card__rating-value">{item.rating || '4.5'}</span>
+              </div>
+
+              <div className="comic-card__tags">
+                {(item.tags || []).slice(0, 3).map((tag, index) => (
+                  <span key={index} className="comic-card__tag">
+                    {tag.startsWith('#') ? tag : `#${tag}`}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="comic-card__button"
+            onClick={() => onSelectItem(item.id)}
+            aria-label={`Ver detalhes de ${item.title}`}
+          />
+        </div>
       ))}
-    </ul>
+    </div>
   );
 }
 
@@ -78,17 +84,18 @@ ItemList.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       title: PropTypes.string.isRequired,
       series: PropTypes.string,
-      issueNumber: PropTypes.string,
+      issue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       publisher: PropTypes.string,
-      language: PropTypes.string,
-      tags: PropTypes.arrayOf(PropTypes.string),
+      year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       status: PropTypes.string,
       imageUrl: PropTypes.string,
-    }),
+      rating: PropTypes.number,
+      tags: PropTypes.arrayOf(PropTypes.string),
+    })
   ).isRequired,
   onSelectItem: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  error: PropTypes.any,
+  error: PropTypes.object,
 };
 
 ItemList.defaultProps = {
