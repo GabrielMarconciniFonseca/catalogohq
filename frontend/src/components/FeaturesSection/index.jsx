@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import uploadIcon from '../../assets/icons/upload-icon.svg';
-import csvIcon from '../../assets/icons/csv-icon.svg';
+
 import searchIcon from '../../assets/icons/search-icon.svg';
 import securityIcon from '../../assets/icons/security-icon.svg';
 import './styles.css';
@@ -12,12 +12,7 @@ const features = [
     title: 'Upload de Capas',
     description: 'Adicione capas de alta qualidade para visualizar sua coleção de forma atraente'
   },
-  {
-    id: 'csv',
-    icon: csvIcon,
-    title: 'Importação CSV',
-    description: 'Importe sua coleção existente rapidamente através de arquivos CSV'
-  },
+
   {
     id: 'search',
     icon: searchIcon,

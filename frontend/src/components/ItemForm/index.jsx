@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
 
@@ -23,7 +23,7 @@ const STATUS_OPTIONS = [
   { value: 'LENT', label: 'Emprestado' },
 ];
 
-function ItemForm({ onSubmit, isSubmitting }) {
+const ItemForm = forwardRef(function ItemForm({ onSubmit, isSubmitting }, ref) {
   const [values, setValues] = useState({ ...INITIAL_VALUES });
   const [preview, setPreview] = useState(null);
   const [formError, setFormError] = useState('');
@@ -117,10 +117,13 @@ function ItemForm({ onSubmit, isSubmitting }) {
     <form className="item-form" onSubmit={handleSubmit} aria-label="Cadastro de HQ">
       <h3>Cadastrar nova edição</h3>
       <div className="item-form__grid">
-        <label className="item-form__field">
+        {/* Linha 1: Título (full) */}
+        <label className="item-form__field item-form__field--full">
           <span>Título*</span>
           <input name="title" value={values.title} onChange={handleChange} placeholder="Título da HQ" required />
         </label>
+
+        {/* Linha 2: Série (1/2) + Número (1/2) */}
         <label className="item-form__field">
           <span>Série</span>
           <input name="series" value={values.series} onChange={handleChange} placeholder="Série ou arco" />
@@ -129,6 +132,8 @@ function ItemForm({ onSubmit, isSubmitting }) {
           <span>Número*</span>
           <input name="issueNumber" value={values.issueNumber} onChange={handleChange} placeholder="Edição" required />
         </label>
+
+        {/* Linha 3: Editora (1/2) + Idioma (1/2) */}
         <label className="item-form__field">
           <span>Editora*</span>
           <input name="publisher" value={values.publisher} onChange={handleChange} placeholder="Editora" required />
@@ -137,6 +142,8 @@ function ItemForm({ onSubmit, isSubmitting }) {
           <span>Idioma</span>
           <input name="language" value={values.language} onChange={handleChange} placeholder="Português" />
         </label>
+
+        {/* Linha 4: Condição (1/2) + Localização (1/2) */}
         <label className="item-form__field">
           <span>Condição</span>
           <input name="condition" value={values.condition} onChange={handleChange} placeholder="Nova, usada..." />
@@ -145,7 +152,9 @@ function ItemForm({ onSubmit, isSubmitting }) {
           <span>Localização</span>
           <input name="location" value={values.location} onChange={handleChange} placeholder="Estante ou caixa" />
         </label>
-        <label className="item-form__field">
+
+        {/* Linha 5: Status (full) */}
+        <label className="item-form__field item-form__field--full">
           <span>Status*</span>
           <select name="status" value={values.status} onChange={handleChange} required>
             {STATUS_OPTIONS.map((option) => (
@@ -155,7 +164,9 @@ function ItemForm({ onSubmit, isSubmitting }) {
             ))}
           </select>
         </label>
-        <label className="item-form__field">
+
+        {/* Linha 6: Tags (full) */}
+        <label className="item-form__field item-form__field--full">
           <span>Tags</span>
           <input
             name="tags"
@@ -168,12 +179,16 @@ function ItemForm({ onSubmit, isSubmitting }) {
             Ex.: marvel, capa dura, autografada
           </small>
         </label>
-        <label className="item-form__field item-form__field--file">
+
+        {/* Linha 7: Capa (full) */}
+        <label className="item-form__field item-form__field--file item-form__field--full">
           <span>Capa (imagem)</span>
           <input type="file" accept="image/*" name="cover" onChange={handleFileChange} />
         </label>
+
+        {/* Preview de imagem (full) */}
         {preview && (
-          <div className="item-form__preview" aria-live="polite">
+          <div className="item-form__preview item-form__field--full" aria-live="polite">
             <img src={preview} alt="Pré-visualização da capa selecionada" />
             <button
               type="button"
@@ -187,28 +202,34 @@ function ItemForm({ onSubmit, isSubmitting }) {
             </button>
           </div>
         )}
+
+        {/* Linha 8: Descrição (full) */}
+        <label className="item-form__field item-form__field--full">
+          <span>Descrição</span>
+          <textarea
+            name="description"
+            value={values.description}
+            onChange={handleChange}
+            rows={4}
+            placeholder="Adicione observações, estado de conservação, etc"
+          />
+        </label>
       </div>
-      <label className="item-form__field">
-        <span>Descrição</span>
-        <textarea
-          name="description"
-          value={values.description}
-          onChange={handleChange}
-          rows={4}
-          placeholder="Adicione observações, estado de conservação, etc"
-        />
-      </label>
+
+      {/* Erro */}
       {formError && (
         <p className="item-form__error" role="alert">
           {formError}
         </p>
       )}
+
+      {/* Botão Submit */}
       <button type="submit" className="item-form__submit" disabled={isSubmitting || !canSubmit}>
         {isSubmitting ? 'Salvando...' : 'Salvar edição'}
       </button>
     </form>
   );
-}
+});
 
 ItemForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,

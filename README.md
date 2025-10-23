@@ -38,6 +38,22 @@ Este repositório contém o catálogo de histórias em quadrinhos que será dese
 
 Esses passos garantem que os padrões de código estão sendo aplicados em ambos os módulos do projeto.
 
+## Integração com Figma (MCP)
+
+Este projeto inclui configuração para o **Framelink MCP**, permitindo integração direta com designs do Figma:
+
+### Configuração rápida:
+```powershell
+.\setup-figma-mcp.ps1 -FigmaApiKey "sua-chave-figma"
+```
+
+### Configuração manual:
+1. Obtenha sua [API key do Figma](https://www.figma.com/settings)
+2. Edite `.vscode/mcp-servers.json` e substitua `YOUR-KEY`
+3. Reinicie o VS Code
+
+📖 **Documentação completa**: [docs/figma-mcp-setup.md](docs/figma-mcp-setup.md)
+
 ## Documentação de domínio e API
 
 O documento [Modelo de domínio e API REST](docs/domain-model-and-api.md) detalha as entidades principais do catálogo, os relacionamentos, os endpoints REST sugeridos e o esquema inicial do banco de dados PostgreSQL, incluindo o script [`schema.sql`](Projeto_Catalogo_JAVA/bancohq/config/schema.sql) que pode ser usado como base para criação das tabelas.

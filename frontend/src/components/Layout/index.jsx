@@ -2,7 +2,14 @@ import PropTypes from 'prop-types';
 import Header from '../Header';
 import './styles.css';
 
-function Layout({ children, onLoginClick, isAuthenticated, userName }) {
+function Layout({
+  children,
+  onLoginClick,
+  isAuthenticated,
+  userName,
+  headerSearchContent,
+  headerActionsContent,
+}) {
   return (
     <div className="layout">
       <a className="layout__skip-link" href="#conteudo-principal">
@@ -12,6 +19,8 @@ function Layout({ children, onLoginClick, isAuthenticated, userName }) {
         onLoginClick={onLoginClick}
         isAuthenticated={isAuthenticated}
         userName={userName}
+        searchContent={headerSearchContent}
+        actionsContent={headerActionsContent}
       />
       <main id="conteudo-principal" className="layout__content">
         {children}
@@ -28,12 +37,16 @@ Layout.propTypes = {
   onLoginClick: PropTypes.func,
   isAuthenticated: PropTypes.bool,
   userName: PropTypes.string,
+  headerSearchContent: PropTypes.node,
+  headerActionsContent: PropTypes.node,
 };
 
 Layout.defaultProps = {
   onLoginClick: () => {},
   isAuthenticated: false,
   userName: '',
+  headerSearchContent: null,
+  headerActionsContent: null,
 };
 
 export default Layout;

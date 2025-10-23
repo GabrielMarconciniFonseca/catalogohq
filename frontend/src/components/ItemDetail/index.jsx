@@ -34,7 +34,11 @@ function ItemDetail({ item, isLoading, onUpdateStatus }) {
       </header>
       {item.imageUrl && (
         <figure className="item-detail__figure">
-          <img src={item.imageUrl} alt={`Capa da HQ ${item.title}`} loading="lazy" />
+          <img 
+            src={item.imageUrl.startsWith('http') ? item.imageUrl : `${(import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api').replace('/api', '')}${item.imageUrl}`} 
+            alt={`Capa da HQ ${item.title}`} 
+            loading="lazy" 
+          />
           <figcaption>Capa enviada para a HQ selecionada</figcaption>
         </figure>
       )}

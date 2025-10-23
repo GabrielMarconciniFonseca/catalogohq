@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import searchIcon from '../../assets/figma/search-container-icon.svg';
 import './styles.css';
 
 function SearchBar({ filters, onChange, isLoading }) {
@@ -10,10 +11,14 @@ function SearchBar({ filters, onChange, isLoading }) {
   return (
     <div className="search-bar">
       <div className="search-bar__input-container">
-        <svg className="search-bar__icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.33"/>
-          <path d="m11 11 2.5 2.5" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
-        </svg>
+        <img
+          src={searchIcon}
+          alt=""
+          className="search-bar__icon"
+          width="16"
+          height="16"
+          aria-hidden="true"
+        />
         <input
           id="search-term"
           name="term"

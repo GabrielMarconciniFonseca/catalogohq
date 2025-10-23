@@ -1,21 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
 import ModalAuth from './components/ModalAuth';
+import ModalForm from './components/ModalForm';
 import Feedback from './components/Feedback';
 import FeaturesSection from './components/FeaturesSection';
 import HeroSection from './components/HeroSection';
 import HowItWorksSection from './components/HowItWorksSection';
-import ImportCsvForm from './components/ImportCsvForm';
 import ItemDetail from './components/ItemDetail';
 import ItemForm from './components/ItemForm';
 import ItemList from './components/ItemList';
 import Layout from './components/Layout';
 import SearchBar from './components/SearchBar';
+import Button from './components/Button';
 import { useAuth } from './context/AuthContext.jsx';
 import {
   createItem,
   fetchItemById,
   fetchItems,
-  importItemsCsv,
   updateItemStatus,
 } from './services/api.js';
 import './styles/App.css';
@@ -37,8 +37,10 @@ function App() {
   const [status, setStatus] = useState({ state: 'idle', message: '' });
   const [error, setError] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
   useEffect(() => {
+    console.log('APP INIT useEffect called');
     const loadItems = async () => {
       setStatus({ state: 'loading', message: 'Carregando itens...' });
       try {
@@ -132,19 +134,7 @@ function App() {
     }
   };
 
-  const handleImportCsv = async (file) => {
-    try {
-      setStatus({ state: 'loading', message: 'Importando arquivo CSV...' });
-      const importedItems = await importItemsCsv(file);
-      setItems((prev) => [...importedItems, ...prev]);
-      setError(null);
-      setStatus({ state: 'success', message: 'Importação concluída com sucesso!' });
-    } catch (err) {
-      setError(err);
-      setStatus({ state: 'error', message: err.message ?? 'Não foi possível importar o CSV.' });
-      throw err;
-    }
-  };
+
 
   const handleStatusChange = async (itemId, nextStatus) => {
     try {
@@ -186,52 +176,42 @@ function App() {
     setIsAuthModalOpen(false);
   };
 
-  const handleAuth = (payload) => {
-    // payload can be { email, password, mode } or { provider: 'google' }
-    console.log('Auth payload', payload);
-    // TODO: call real auth service
-    setIsAuthModalOpen(false);
+  const handleFormOpen = () => {
+    console.log('handleFormOpen WORKING');
+    setIsFormModalOpen(true);
   };
+
+  const handleFormClose = () => {
+    setIsFormModalOpen(false);
+    setCurrentEditingItem(null);
+  };
+
+  const handleFormSubmit = async (itemData) => {
+    await handleSaveItem(itemData);
+    setIsFormModalOpen(false);
+  };
+
+  const layoutHeaderSearch = isAuthenticated ? (
+    <SearchBar
+      filters={filters}
+      onChange={handleFilterChange}
+      isLoading={status.state === 'loading'}
+    />
+  ) : null;
+
+  const layoutHeaderActions = null;
 
   return (
     <Layout 
       onLoginClick={handleLoginClick}
       isAuthenticated={isAuthenticated}
-      userName={user?.name}
+      userName={user?.fullName || user?.username || ''}
+      headerSearchContent={layoutHeaderSearch}
+      headerActionsContent={layoutHeaderActions}
     >
       <div className="app">
         {isAuthenticated ? (
           <>
-            <header className="app-header">
-              <div className="app-header__container">
-                <div className="app-header__brand">
-                  <div className="app-header__icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 7V14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                      <rect x="2" y="3" width="20" height="18" rx="2" stroke="currentColor" strokeWidth="2" fill="none"/>
-                    </svg>
-                  </div>
-                  <h1 className="app-header__title">HQ Catalog</h1>
-                </div>
-                <div className="app-header__search">
-                  <SearchBar
-                    filters={filters}
-                    publishers={publishers}
-                    seriesOptions={seriesOptions}
-                    onChange={handleFilterChange}
-                    isLoading={status.state === 'loading'}
-                  />
-                </div>
-                <div className="app-header__actions">
-                  <ImportCsvForm onImport={handleImportCsv} isImporting={status.state === 'loading'} />
-                  <button type="button" className="app-header__add-button" onClick={() => setCurrentEditingItem({})}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M8 3.33V8.67M5.33 2V5.33M5.33 8.67V10" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </header>
             <main className="app-main" id="conteudo-principal">
               <div className="app-filters">
                 <div className="filter-tabs">
@@ -309,17 +289,35 @@ function App() {
                 onUpdateStatus={isAuthenticated ? handleStatusChange : null}
               />
             )}
+            <button
+              type="button"
+              className="btn btn--fab btn--fab"
+              onClick={handleFormOpen}
+              title="Adicionar nova HQ"
+              aria-label="Adicionar nova HQ"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5V19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </>
         ) : (
           <div className="app-login">
             <HeroSection onGetStarted={() => setIsAuthModalOpen(true)} />
             <FeaturesSection />
             <HowItWorksSection />
-            
-            <ModalAuth isOpen={isAuthModalOpen} onClose={handleAuthClose} onLogin={handleAuth} />
+
+            <ModalAuth isOpen={isAuthModalOpen} onClose={handleAuthClose} />
           </div>
         )}
         <Feedback status={status} />
+        <ModalForm 
+          isOpen={isFormModalOpen} 
+          onClose={handleFormClose} 
+          onSubmit={handleFormSubmit}
+          isSubmitting={status.state === 'loading'}
+        />
       </div>
     </Layout>
   );

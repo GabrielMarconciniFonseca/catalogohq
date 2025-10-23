@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import './styles.css';
@@ -7,7 +8,7 @@ const MODES = {
   register: 'Criar conta',
 };
 
-function AuthPanel() {
+function AuthPanel({ onSuccess }) {
   const { isAuthenticated, user, login, register, loginWithGoogle, logout, error, setError } = useAuth();
   const [mode, setMode] = useState('login');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,15 +30,16 @@ function AuthPanel() {
     setIsSubmitting(true);
     setError(null);
     try {
-      if (mode === 'login') {
-        await login({ username: formValues.username, password: formValues.password });
-      } else {
-        await register({
-          username: formValues.username,
-          password: formValues.password,
-          fullName: formValues.fullName,
-        });
-      }
+      const result =
+        mode === 'login'
+          ? await login({ username: formValues.username, password: formValues.password })
+          : await register({
+              username: formValues.username,
+              password: formValues.password,
+              fullName: formValues.fullName,
+            });
+
+      onSuccess(result, mode);
       setFormValues({ username: '', password: '', fullName: '' });
     } catch (err) {
       setError(err.message);
@@ -149,3 +151,11 @@ function AuthPanel() {
 }
 
 export default AuthPanel;
+
+AuthPanel.propTypes = {
+  onSuccess: PropTypes.func,
+};
+
+AuthPanel.defaultProps = {
+  onSuccess: () => {},
+};

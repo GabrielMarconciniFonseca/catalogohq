@@ -1,9 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
+
+// Flag para usar dados mockados (use localStorage para persistência)
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
   headers: {
-    Accept: 'application/json',
+    Accept: "application/json",
   },
 });
 
@@ -18,7 +20,7 @@ function parseError(error) {
   if (error.message) {
     return new Error(error.message);
   }
-  return new Error('Não foi possível completar a requisição.');
+  return new Error("Não foi possível completar a requisição.");
 }
 
 export function setAuthToken(token) {
@@ -31,7 +33,7 @@ export function setAuthToken(token) {
 
 export async function login(credentials) {
   try {
-    const response = await apiClient.post('/auth/login', credentials);
+    const response = await apiClient.post("/auth/login", credentials);
     return response.data;
   } catch (error) {
     throw parseError(error);
@@ -40,7 +42,7 @@ export async function login(credentials) {
 
 export async function registerUser(payload) {
   try {
-    const response = await apiClient.post('/auth/register', payload);
+    const response = await apiClient.post("/auth/register", payload);
     return response.data;
   } catch (error) {
     throw parseError(error);
@@ -50,26 +52,26 @@ export async function registerUser(payload) {
 function buildQuery(params) {
   const searchParams = new URLSearchParams();
   if (params.term) {
-    searchParams.set('term', params.term);
+    searchParams.set("term", params.term);
   }
-  if (params.publisher && params.publisher !== 'todos') {
-    searchParams.set('publisher', params.publisher);
+  if (params.publisher && params.publisher !== "todos") {
+    searchParams.set("publisher", params.publisher);
   }
-  if (params.series && params.series !== 'todas') {
-    searchParams.set('series', params.series);
+  if (params.series && params.series !== "todas") {
+    searchParams.set("series", params.series);
   }
-  if (params.status && params.status !== 'todos') {
-    searchParams.set('status', params.status);
+  if (params.status && params.status !== "todos") {
+    searchParams.set("status", params.status);
   }
   if (Array.isArray(params.tags) && params.tags.length) {
     params.tags.forEach((tag) => {
       if (tag.trim()) {
-        searchParams.append('tags', tag.trim());
+        searchParams.append("tags", tag.trim());
       }
     });
   }
   const query = searchParams.toString();
-  return query ? `?${query}` : '';
+  return query ? `?${query}` : "";
 }
 
 export async function fetchItems(filters = {}) {
@@ -84,7 +86,7 @@ export async function fetchItems(filters = {}) {
 
 export async function fetchWishlist() {
   try {
-    const response = await apiClient.get('/items/wishlist');
+    const response = await apiClient.get("/items/wishlist");
     return response.data;
   } catch (error) {
     throw parseError(error);
@@ -102,9 +104,9 @@ export async function fetchItemById(id) {
 
 export async function createItem(formData) {
   try {
-    const response = await apiClient.post('/items', formData, {
+    const response = await apiClient.post("/items", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
@@ -125,10 +127,10 @@ export async function updateItemStatus(id, status) {
 export async function importItemsCsv(file) {
   try {
     const formData = new FormData();
-    formData.append('file', file);
-    const response = await apiClient.post('/items/import', formData, {
+    formData.append("file", file);
+    const response = await apiClient.post("/items/import", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
