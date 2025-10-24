@@ -37,6 +37,7 @@ figma-api-key.txt
 
 # MCP Configuration with sensitive data
 .vscode/mcp-servers-local.json
+.vscode/mcp.json
 
 # OS generated files
 .DS_Store
