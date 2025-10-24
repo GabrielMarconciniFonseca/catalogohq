@@ -1,0 +1,49 @@
+/* Card Badge Styles - Baseado no Figma */
+.card-badge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  font-family: "Arimo", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+  border: 1px solid transparent;
+  z-index: 2;
+}
+
+.card-badge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.card-badge__label {
+  white-space: nowrap;
+}
+
+/* Status variants - cores do Figma */
+.card-badge--owned {
+  background-color: #4c6ef5;
+  color: #ffffff;
+}
+
+.card-badge--reading {
+  background-color: #ffd43b;
+  color: #212529;
+}
+
+.card-badge--wishlist {
+  background-color: #e03131;
+  color: #ffffff;
+}
+
+.card-badge--completed {
+  background-color: #51cf66;
+  color: #ffffff;
+  border-color: #51cf66;
+}
