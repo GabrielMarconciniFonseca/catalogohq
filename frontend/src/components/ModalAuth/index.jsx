@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import closeIcon from '../../assets/icons/modal-close-icon.svg';
 import AuthPanel from '../AuthPanel';
-import './styles.css';
+import './ModalAuth.css';
 
 function ModalAuth({ isOpen, onClose }) {
   // Handle ESC key to close modal

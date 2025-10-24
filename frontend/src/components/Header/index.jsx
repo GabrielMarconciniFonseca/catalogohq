@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import figmaHeaderIcon from '../../assets/icons/catalogo-hq-icon.svg';
 import userIcon from '../../assets/icons/user-icon.svg';
-import './styles.css';
+import './Header.css';
 
 function Header({ onLoginClick, isAuthenticated, userName, searchContent, actionsContent }) {
   const hasSearch = Boolean(isAuthenticated && searchContent);

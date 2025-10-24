@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ItemForm from '../ItemForm';
-import './styles.css';
+import './ModalForm.css';
 
 function ModalForm({ isOpen, onClose, onSubmit, isSubmitting }) {
   const dialogRef = useRef(null);

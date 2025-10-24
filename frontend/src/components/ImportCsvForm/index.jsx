@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
+import './ImportCsvForm.css';
 
 function ImportCsvForm({ onImport, isImporting }) {
   const [file, setFile] = useState(null);

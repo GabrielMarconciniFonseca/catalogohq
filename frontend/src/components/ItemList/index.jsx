@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
-import './styles.css';
+import './ItemList.css';
 
 function ItemList({ items, onSelectItem, isLoading, error }) {
   const [imageLoadStates, setImageLoadStates] = useState({});

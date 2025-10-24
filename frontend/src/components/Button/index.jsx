@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './styles.css';
+import './Button.css';
 
 function Button({
   type = 'button',

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
-import './styles.css';
+import './AuthPanel.css';
 
 const MODES = {
   login: 'Entrar',

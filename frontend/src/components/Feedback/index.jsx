@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './styles.css';
+import './Feedback.css';
 
 const STATUS_COPY = {
   idle: 'Pronto para uso.',

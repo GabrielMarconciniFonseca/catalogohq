@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './styles.css';
+import './ItemDetail.css';
 
 const STATUS_OPTIONS = [
   { value: 'OWNED', label: 'Na coleção' },

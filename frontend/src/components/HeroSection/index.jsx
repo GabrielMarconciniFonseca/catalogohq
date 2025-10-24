@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import organizeIcon from '../../assets/icons/organize-icon.svg';
-import './styles.css';
+import './HeroSection.css';
 
 function HeroSection({ onGetStarted }) {
   return (

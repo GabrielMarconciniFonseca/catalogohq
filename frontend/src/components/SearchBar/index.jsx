@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import searchIcon from '../../assets/figma/search-container-icon.svg';
-import './styles.css';
+import './SearchBar.css';
 
 function SearchBar({ filters, onChange, isLoading }) {
   const handleChange = (event) => {

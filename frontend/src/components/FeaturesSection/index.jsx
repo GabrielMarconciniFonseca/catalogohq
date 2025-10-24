@@ -3,7 +3,7 @@ import uploadIcon from '../../assets/icons/upload-icon.svg';
 
 import searchIcon from '../../assets/icons/search-icon.svg';
 import securityIcon from '../../assets/icons/security-icon.svg';
-import './styles.css';
+import './FeaturesSection.css';
 
 const features = [
   {
