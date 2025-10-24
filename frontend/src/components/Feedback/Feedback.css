@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
   border: 1px solid transparent;
 }
 

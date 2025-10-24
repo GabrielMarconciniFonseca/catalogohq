@@ -13,9 +13,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 );
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {
-      // Falha silenciosa para não interromper o fluxo caso o registro não seja possível
-    });
+  window.addEventListener('load', async () => {
+    // Primeiro, desregistrar qualquer SW existente
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for (const registration of registrations) {
+      await registration.unregister();
+    }
+    // Limpar todos os caches
+    const cacheNames = await caches.keys();
+    await Promise.all(
+      cacheNames.map(cacheName => caches.delete(cacheName))
+    );
+    // Registrar o novo SW
+    navigator.serviceWorker.register('/sw.js').catch(console.error);
   });
 }

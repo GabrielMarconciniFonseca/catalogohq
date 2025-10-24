@@ -3,7 +3,11 @@
   width: 100%;
   min-height: 462px;
   padding: 80px 124px 0px;
-  background: linear-gradient(135deg, rgba(239, 246, 255, 1) 0%, rgba(250, 245, 255, 1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(239, 246, 255, 1) 0%,
+    rgba(250, 245, 255, 1) 100%
+  );
   display: flex;
   flex-direction: column;
 }
@@ -26,8 +30,8 @@
 
 .how-it-works-section__title {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 20px;
   line-height: 1.5em;
   color: #101828;
@@ -37,11 +41,11 @@
 
 .how-it-works-section__subtitle {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 16px;
   line-height: 1.5em;
-  color: #4A5565;
+  color: #4a5565;
   text-align: center;
   max-width: 672px;
   margin: 0 auto;
@@ -60,7 +64,12 @@
   left: 192px; /* Ajustado para começar no centro do primeiro círculo */
   right: 192px; /* Ajustado para terminar no centro do último círculo */
   height: 4px;
-  background: linear-gradient(90deg, rgba(21, 93, 252, 1) 0%, rgba(152, 16, 250, 1) 50%, rgba(230, 0, 118, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(21, 93, 252, 1) 0%,
+    rgba(152, 16, 250, 1) 50%,
+    rgba(230, 0, 118, 1) 100%
+  );
   z-index: 1;
 }
 
@@ -91,16 +100,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 0px 0px 4px rgba(255, 255, 255, 1);
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 0px 0px 4px rgba(255, 255, 255, 1);
   margin-bottom: 16px;
 }
 
 .how-it-works-section__step-number span {
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 20px;
   line-height: 1.4em;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -114,8 +125,8 @@
 
 .how-it-works-section__step-title {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 16px;
   line-height: 1.5em;
   color: #101828;
@@ -125,11 +136,11 @@
 
 .how-it-works-section__step-description {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 16px;
   line-height: 1.5em;
-  color: #4A5565;
+  color: #4a5565;
   text-align: center;
   height: 48px;
 }
@@ -139,29 +150,29 @@
   .how-it-works-section {
     padding: 60px 32px 0px;
   }
-  
+
   .how-it-works-section__container {
     padding: 0px 16px;
     height: auto;
     gap: 48px;
   }
-  
+
   .how-it-works-section__steps-list {
     flex-direction: column;
     gap: 32px;
     align-items: center;
   }
-  
+
   .how-it-works-section__step {
     width: 100%;
     max-width: 384px;
     height: auto;
   }
-  
+
   .how-it-works-section__connector-line {
     display: none;
   }
-  
+
   .how-it-works-section__steps {
     height: auto;
   }
@@ -171,33 +182,33 @@
   .how-it-works-section {
     padding: 40px 16px 0px;
   }
-  
+
   .how-it-works-section__title {
     font-size: 18px;
   }
-  
+
   .how-it-works-section__subtitle {
     font-size: 14px;
   }
-  
+
   .how-it-works-section__step-number {
     width: 56px;
     height: 56px;
   }
-  
+
   .how-it-works-section__step-number span {
     font-size: 18px;
   }
-  
+
   .how-it-works-section__step-title {
     font-size: 14px;
   }
-  
+
   .how-it-works-section__step-description {
     font-size: 14px;
     height: auto;
   }
-  
+
   .how-it-works-section__step-content {
     gap: 12px;
   }
@@ -207,32 +218,32 @@
   .how-it-works-section {
     padding: 32px 16px 0px;
   }
-  
+
   .how-it-works-section__container {
     gap: 32px;
   }
-  
+
   .how-it-works-section__title {
     font-size: 16px;
   }
-  
+
   .how-it-works-section__subtitle {
     font-size: 13px;
   }
-  
+
   .how-it-works-section__step-number {
     width: 48px;
     height: 48px;
   }
-  
+
   .how-it-works-section__step-number span {
     font-size: 16px;
   }
-  
+
   .how-it-works-section__step-title {
     font-size: 13px;
   }
-  
+
   .how-it-works-section__step-description {
     font-size: 12px;
   }

@@ -4,11 +4,11 @@ import './Layout.css';
 
 function Layout({
   children,
-  onLoginClick,
-  isAuthenticated,
-  userName,
-  headerSearchContent,
-  headerActionsContent,
+  onLoginClick = () => {},
+  isAuthenticated = false,
+  userName = '',
+  headerSearchContent = null,
+  headerActionsContent = null,
 }) {
   return (
     <div className="layout">
@@ -39,14 +39,6 @@ Layout.propTypes = {
   userName: PropTypes.string,
   headerSearchContent: PropTypes.node,
   headerActionsContent: PropTypes.node,
-};
-
-Layout.defaultProps = {
-  onLoginClick: () => {},
-  isAuthenticated: false,
-  userName: '',
-  headerSearchContent: null,
-  headerActionsContent: null,
 };
 
 export default Layout;

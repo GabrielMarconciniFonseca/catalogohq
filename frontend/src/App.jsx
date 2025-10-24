@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalAuth from './components/ModalAuth';
 import ModalForm from './components/ModalForm';
 import Feedback from './components/Feedback';
@@ -11,33 +11,41 @@ import ItemList from './components/ItemList';
 import Layout from './components/Layout';
 import SearchBar from './components/SearchBar';
 import Button from './components/Button';
+import CategoryFilter from './components/CategoryFilter';
 import { useAuth } from './context/AuthContext.jsx';
+import { useCategoryFilters } from './hooks/useCategoryFilters.js';
 import {
   createItem,
   fetchItemById,
   fetchItems,
   updateItemStatus,
 } from './services/api.js';
+import { ensureArray, SAFE_INITIAL_STATES } from './utils/arrayHelpers.js';
 import './styles/App.css';
 
-const DEFAULT_FILTERS = {
-  term: '',
-  publisher: 'todos',
-  series: 'todas',
-  status: 'todos',
-  tags: '',
-};
+const DEFAULT_FILTERS = SAFE_INITIAL_STATES.filters;
 
 function App() {
   const { isAuthenticated, user } = useAuth();
-  const [items, setItems] = useState([]);
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [items, setItems] = useState(SAFE_INITIAL_STATES.items);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentEditingItem, setCurrentEditingItem] = useState(null);
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
+  const [status, setStatus] = useState(SAFE_INITIAL_STATES.status);
   const [error, setError] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+
+  // Hook customizado para gerenciar filtros e itens filtrados
+  const {
+    filters,
+    filteredItems,
+    categories,
+    publishers,
+    seriesOptions,
+    updateFilters,
+    updateFilter,
+    filteredCount,
+  } = useCategoryFilters(items);
 
   useEffect(() => {
     console.log('APP INIT useEffect called');
@@ -45,66 +53,30 @@ function App() {
       setStatus({ state: 'loading', message: 'Carregando itens...' });
       try {
         const data = await fetchItems();
-        setItems(data);
-        setError(null);
+        
+      // Garantir que data seja sempre um array
+      const safeData = ensureArray(data, 'handleSaveItem fetchItems response');
+      
+      // TEMPORÁRIO: Adicionar datas e ratings aos itens para testar o overlay e as estrelas
+      const dataWithDates = safeData.map((item, index) => ({
+        ...item,
+        purchaseDate: new Date(2024, 9, 14 + index).toISOString(), // Datas variadas
+        rating: 4.5 + (index * 0.3) // Ratings variados: 4.5, 4.8, 5.1 (normalizado para 5.0)...
+      }));
+      
+      setItems(dataWithDates);
+      setError(null);
         setStatus({ state: 'success', message: 'Itens carregados com sucesso.' });
       } catch (err) {
+        console.error('Erro ao carregar itens:', err);
         setError(err);
+        setItems([]); // Garantir array vazio em caso de erro
         setStatus({ state: 'error', message: 'Não foi possível carregar os itens.' });
       }
     };
 
     loadItems();
   }, []);
-
-  const publishers = useMemo(() => {
-    const uniquePublishers = new Set(items.map((item) => item.publisher ?? 'Outros'));
-    return ['todos', ...Array.from(uniquePublishers)];
-  }, [items]);
-
-  const seriesOptions = useMemo(() => {
-    const uniqueSeries = new Set(items.map((item) => item.series ?? 'Outras séries'));
-    return ['todas', ...Array.from(uniqueSeries)];
-  }, [items]);
-
-  const activeFilterTags = useMemo(() => {
-    if (!filters.tags.trim()) {
-      return [];
-    }
-    return filters.tags
-      .split(',')
-      .map((tag) => tag.trim().toLowerCase())
-      .filter(Boolean);
-  }, [filters.tags]);
-
-  const filteredItems = useMemo(() => {
-    const term = filters.term.trim().toLowerCase();
-    return items.filter((item) => {
-      const matchesTerm =
-        !term ||
-        item.title.toLowerCase().includes(term) ||
-        (item.series ?? '').toLowerCase().includes(term) ||
-        (item.publisher ?? '').toLowerCase().includes(term) ||
-        (item.location ?? '').toLowerCase().includes(term) ||
-        (item.description ?? '').toLowerCase().includes(term) ||
-        (item.tags ?? []).some((tag) => tag.toLowerCase().includes(term));
-
-      const publisherLabel = item.publisher ?? 'Outros';
-      const matchesPublisher =
-        filters.publisher === 'todos' || publisherLabel === filters.publisher;
-
-      const seriesLabel = item.series ?? 'Outras séries';
-      const matchesSeries = filters.series === 'todas' || seriesLabel === filters.series;
-
-      const matchesStatus = filters.status === 'todos' || item.status === filters.status;
-
-      const matchesTags =
-        !activeFilterTags.length ||
-        activeFilterTags.every((tag) => (item.tags ?? []).some((itemTag) => itemTag.toLowerCase().includes(tag)));
-
-      return matchesTerm && matchesPublisher && matchesSeries && matchesStatus && matchesTags;
-    });
-  }, [items, filters, activeFilterTags]);
 
   const handleSelectItem = async (itemId) => {
     try {
@@ -123,7 +95,13 @@ function App() {
     try {
       setStatus({ state: 'loading', message: 'Salvando edição...' });
       const newItem = await createItem(formData);
-      setItems((prev) => [newItem, ...prev]);
+      
+      // Garantir que items seja sempre um array antes de atualizar
+      setItems((prev) => {
+        const safePrev = ensureArray(prev, 'handleCreateItem previous state');
+        return [newItem, ...safePrev];
+      });
+      
       setSelectedItem(newItem);
       setError(null);
       setStatus({ state: 'success', message: 'Edição cadastrada com sucesso!' });
@@ -140,7 +118,13 @@ function App() {
     try {
       setStatus({ state: 'loading', message: 'Atualizando status...' });
       const updated = await updateItemStatus(itemId, nextStatus);
-      setItems((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+      
+      // Garantir que items seja sempre um array antes de atualizar
+      setItems((prev) => {
+        const safePrev = ensureArray(prev, 'handleStatusChange previous state');
+        return safePrev.map((item) => (item.id === updated.id ? updated : item));
+      });
+      
       setSelectedItem(updated);
       setError(null);
       setStatus({ state: 'success', message: 'Status atualizado com sucesso.' });
@@ -150,16 +134,19 @@ function App() {
     }
   };
 
-  const handleFilterChange = (nextFilters) => {
-    setFilters((prev) => ({ ...prev, ...nextFilters }));
-  };
+  // Usar a função do hook para atualizar filtros
+  const handleFilterChange = updateFilters;
 
   const handleSaveItem = async (itemData) => {
     setStatus({ state: 'loading', message: 'Salvando item...' });
     try {
       await createItem(itemData);
       const data = await fetchItems();
-      setItems(data);
+      
+      // Garantir que data seja sempre um array
+      const safeData = ensureArray(data, 'fetchItems response');
+      setItems(safeData);
+      
       setCurrentEditingItem(null);
       setStatus({ state: 'success', message: 'Item salvo com sucesso.' });
     } catch (err) {
@@ -214,66 +201,31 @@ function App() {
           <>
             <main className="app-main" id="conteudo-principal">
               <div className="app-filters">
-                <div className="filter-tabs">
-                  <button 
-                    type="button" 
-                    className={`filter-tab ${filters.status === 'todos' ? 'filter-tab--active' : ''}`}
-                    onClick={() => handleFilterChange({ status: 'todos' })}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <rect x="2" y="2" width="4.67" height="4.67" fill="currentColor"/>
-                      <rect x="9.33" y="2" width="4.67" height="4.67" fill="currentColor"/>
-                      <rect x="9.33" y="9.33" width="4.67" height="4.67" fill="currentColor"/>
-                      <rect x="2" y="9.33" width="4.67" height="4.67" fill="currentColor"/>
-                    </svg>
-                    Todas ({items.length})
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`filter-tab ${filters.status === 'OWNED' ? 'filter-tab--active' : ''}`}
-                    onClick={() => handleFilterChange({ status: 'OWNED' })}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M6.67 1.33H4M2.67 1.33H13.33V13.33" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
-                    </svg>
-                    Coleção ({items.filter(item => item.status === 'OWNED').length})
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`filter-tab ${filters.status === 'WISHLIST' ? 'filter-tab--active' : ''}`}
-                    onClick={() => handleFilterChange({ status: 'WISHLIST' })}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M1.33 2.66L13.33 11.34" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
-                    </svg>
-                    Wishlist ({items.filter(item => item.status === 'WISHLIST').length})
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`filter-tab ${filters.status === 'READING' ? 'filter-tab--active' : ''}`}
-                    onClick={() => handleFilterChange({ status: 'READING' })}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M8 4.67V9.33M1.33 2V12" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
-                    </svg>
-                    Lendo ({items.filter(item => item.status === 'READING').length})
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`filter-tab ${filters.status === 'COMPLETED' ? 'filter-tab--active' : ''}`}
-                    onClick={() => handleFilterChange({ status: 'COMPLETED' })}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path d="M1.33 1.33L13.33 13.33M6 6.67L4 2.67" stroke="currentColor" strokeWidth="1.33" strokeLinecap="round"/>
-                    </svg>
-                    Completos ({items.filter(item => item.status === 'COMPLETED').length})
-                  </button>
-                </div>
+                <CategoryFilter 
+                  activeFilter={filters.status}
+                  categories={categories}
+                  onFilterChange={(filterId) => handleFilterChange({ status: filterId })}
+                />
               </div>
               <div className="app-content">
-                <p className="results-count">
-                  {filteredItems.length} HQs encontradas
-                </p>
+                <div className="app-content__header">
+                  <p className="results-count">
+                    {filteredCount} HQs encontradas
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn--primary btn--add-hq"
+                    onClick={handleFormOpen}
+                    title="Adicionar nova HQ"
+                    aria-label="Adicionar nova HQ"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 2V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <path d="M2 8H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                    Adicionar HQ
+                  </button>
+                </div>
                 <ItemList
                   items={filteredItems}
                   onSelectItem={handleSelectItem}
@@ -289,7 +241,8 @@ function App() {
                 onUpdateStatus={isAuthenticated ? handleStatusChange : null}
               />
             )}
-            <button
+            {/* Botão FAB antigo - pode ser removido após validação do novo layout */}
+            {/* <button
               type="button"
               className="btn btn--fab btn--fab"
               onClick={handleFormOpen}
@@ -300,7 +253,7 @@ function App() {
                 <path d="M12 5V19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </button>
+            </button> */}
           </>
         ) : (
           <div className="app-login">

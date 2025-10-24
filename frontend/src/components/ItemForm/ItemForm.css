@@ -12,7 +12,7 @@
 .item-form h3 {
   margin: 0 0 1rem 0;
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
   color: #0a0a0a;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .item-form__field span {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
   color: var(--color-muted);
 }
 
@@ -88,14 +88,14 @@
   border: none;
   background: transparent;
   color: var(--color-error);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
   cursor: pointer;
 }
 
 .item-form__error {
   margin: 0;
   color: var(--color-error);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
 }
 
 .item-form__submit {
@@ -104,7 +104,7 @@
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   border: 1px solid #0a0a0a;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
   color: #0a0a0a;
   background: #ffffff;
   cursor: pointer;

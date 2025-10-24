@@ -6,14 +6,19 @@
   padding: 80px 156px 0px;
   width: 100%;
   min-height: 686px;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 /* Header com fundo gradiente */
 .features-section__header {
   position: relative;
   height: 208px;
-  background: linear-gradient(135deg, rgba(21, 93, 252, 1) 0%, rgba(152, 16, 250, 1) 50%, rgba(20, 71, 230, 1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(21, 93, 252, 1) 0%,
+    rgba(152, 16, 250, 1) 50%,
+    rgba(20, 71, 230, 1) 100%
+  );
   border-radius: 16px;
   box-shadow: 0px 0px 50px 0px rgba(139, 92, 246, 0.5);
   display: flex;
@@ -26,17 +31,17 @@
 
 .features-section__title {
   margin: 0 0 16px 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 24px;
   line-height: 1.5em;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .features-section__subtitle {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 20px;
   line-height: 1.5em;
   color: rgba(255, 255, 255, 0.9);
@@ -57,8 +62,8 @@
   flex-direction: column;
   gap: 40px;
   padding: 24px 0px 24px 24px;
-  background: #FFFFFF;
-  border: 1px solid #F3F4F6;
+  background: #ffffff;
+  border: 1px solid #f3f4f6;
   border-radius: 14px;
   flex: 1;
   box-sizing: border-box;
@@ -97,9 +102,14 @@
   align-items: center;
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, rgba(21, 93, 252, 1) 0%, rgba(152, 16, 250, 1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(21, 93, 252, 1) 0%,
+    rgba(152, 16, 250, 1) 100%
+  );
   border-radius: 14px;
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
 }
 
@@ -119,8 +129,8 @@
 
 .features-section__card-title {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 16px;
   line-height: 1.5em;
   color: #101828;
@@ -129,11 +139,11 @@
 
 .features-section__card-description {
   margin: 0;
-  font-family: 'Arimo', Arial, sans-serif;
-  font-weight: 400;
+  font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
+  font-weight: var(--font-weight-regular, 400);
   font-size: 14px;
   line-height: 1.4285714285714286em;
-  color: #4A5565;
+  color: #4a5565;
   flex: 1;
 }
 
@@ -143,25 +153,25 @@
     padding: 60px 32px 0px;
     gap: 48px;
   }
-  
+
   .features-section__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     height: auto;
   }
-  
+
   .features-section__card {
     border-radius: 14px !important;
-    border: 1px solid #F3F4F6 !important;
+    border: 1px solid #f3f4f6 !important;
     padding: 24px;
   }
-  
+
   .features-section__header {
     height: auto;
     padding: 32px 24px;
   }
-  
+
   .features-section__subtitle {
     font-size: 18px;
   }
@@ -172,32 +182,32 @@
     padding: 40px 16px 0px;
     gap: 32px;
   }
-  
+
   .features-section__grid {
     display: flex;
     flex-direction: column;
     gap: 16px;
     height: auto;
   }
-  
+
   .features-section__card {
     border-radius: 14px !important;
-    border: 1px solid #F3F4F6 !important;
+    border: 1px solid #f3f4f6 !important;
     padding: 24px;
   }
-  
+
   .features-section__title {
     font-size: 20px;
   }
-  
+
   .features-section__subtitle {
     font-size: 16px;
   }
-  
+
   .features-section__card-content {
     width: 100%;
   }
-  
+
   .features-section__header {
     padding: 24px 16px;
   }
@@ -207,19 +217,19 @@
   .features-section {
     padding: 32px 16px 0px;
   }
-  
+
   .features-section__title {
     font-size: 18px;
   }
-  
+
   .features-section__subtitle {
     font-size: 14px;
   }
-  
+
   .features-section__card-title {
     font-size: 14px;
   }
-  
+
   .features-section__card-description {
     font-size: 12px;
   }
