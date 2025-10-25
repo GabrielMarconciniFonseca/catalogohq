@@ -10,6 +10,8 @@
     "test": "vitest",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build",
     "devtools": "npx chrome-devtools-mcp@latest"
   },
   "dependencies": {
@@ -19,6 +21,9 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
@@ -30,6 +35,7 @@
     "jsdom": "^22.1.0",
     "playwright": "^1.39.0",
     "react-devtools": "^7.0.1",
+    "storybook": "^8.6.14",
     "vite": "^5.0.11",
     "vitest": "^0.34.6"
   }
