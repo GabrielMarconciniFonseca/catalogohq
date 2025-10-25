@@ -5,20 +5,21 @@
   right: 3px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--gap-badge-icon, 4px);
   padding: 5px 9px;
-  border-radius: 8px;
-  font-family: "Arimo", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.33;
-  border: 1px solid transparent;
-  z-index: 2;
+  border-radius: var(--radius-sm, 8px);
+  font-family: var(--font-family-base, "Arimo", sans-serif);
+  font-size: var(--font-size-12, 12px);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: var(--line-height-tight, 1.33);
+  border: var(--border-width-thin, 1px) solid
+    var(--color-border-transparent, transparent);
+  z-index: var(--z-badge, 2);
 }
 
 .card-badge svg {
-  width: 12px;
-  height: 12px;
+  width: var(--badge-icon-size, 12px);
+  height: var(--badge-icon-size, 12px);
   flex-shrink: 0;
 }
 
@@ -28,22 +29,22 @@
 
 /* Status variants - cores do Figma */
 .card-badge--owned {
-  background-color: #4c6ef5;
-  color: #ffffff;
+  background-color: var(--color-badge-owned-bg, #4c6ef5);
+  color: var(--color-badge-owned-text, #ffffff);
 }
 
 .card-badge--reading {
-  background-color: #ffd43b;
-  color: #212529;
+  background-color: var(--color-badge-reading-bg, #ffd43b);
+  color: var(--color-badge-reading-text, #212529);
 }
 
 .card-badge--wishlist {
-  background-color: #e03131;
-  color: #ffffff;
+  background-color: var(--color-badge-wishlist-bg, #e03131);
+  color: var(--color-badge-wishlist-text, #ffffff);
 }
 
 .card-badge--completed {
-  background-color: #51cf66;
-  color: #ffffff;
-  border-color: #51cf66;
+  background-color: var(--color-badge-completed-bg, #51cf66);
+  color: var(--color-badge-completed-text, #ffffff);
+  border-color: var(--color-badge-completed-bg, #51cf66);
 }

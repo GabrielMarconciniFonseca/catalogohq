@@ -1,3 +1,6 @@
+/* Importar Design Tokens */
+@import "./tokens.css";
+
 *,
 *::before,
 *::after {

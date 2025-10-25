@@ -1,45 +1,52 @@
 .header {
   width: 100%;
-  min-height: 65px;
-  background: linear-gradient(180deg, #4c6ef5 0%, #364fc7 100%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0 32px;
+  min-height: var(--header-height, 65px);
+  background: var(
+    --gradient-header,
+    linear-gradient(180deg, #4c6ef5 0%, #364fc7 100%)
+  );
+  border-bottom: var(--border-width-thin, 1px) solid
+    var(--color-border-light, rgba(0, 0, 0, 0.1));
+  padding: var(--spacing-xl, 24px) var(--spacing-2xl, 32px) 0;
   display: flex;
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0px 4px 6px -4px rgba(76, 110, 245, 0.25),
-    0px 10px 15px -3px rgba(76, 110, 245, 0.25);
+  z-index: var(--z-header, 100);
+  box-shadow: var(
+    --shadow-header,
+    0px 4px 6px -4px rgba(76, 110, 245, 0.25),
+    0px 10px 15px -3px rgba(76, 110, 245, 0.25)
+  );
 }
 
 .header__container {
   width: 100%;
-  max-width: 1528px;
+  max-width: var(--header-max-width, 1528px);
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: var(--spacing-2xl, 32px);
 }
 
 .header__brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-md, 8px);
 }
 
 .header__brand-icon {
-  width: 24px;
-  height: 24px;
+  width: var(--icon-size-xl, 24px);
+  height: var(--icon-size-xl, 24px);
   display: block;
 }
 
 .header__brand-text {
   font-family: var(--font-family-base, "Arimo", Arial, sans-serif);
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 1.5em;
-  color: #ffffff;
+  font-weight: var(--font-weight-regular, 400);
+  font-size: var(--font-size-24, 24px);
+  line-height: var(--line-height-base, 1.5em);
+  color: var(--color-white, #ffffff);
   letter-spacing: -0.01em;
   white-space: nowrap;
 }

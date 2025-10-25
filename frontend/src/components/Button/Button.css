@@ -25,12 +25,12 @@
 
 /* Variants */
 .btn--primary {
-  background-color: var(--color-primary, #6366f1);
-  color: white;
+  background-color: var(--color-primary, #4c6ef5);
+  color: var(--color-white, #ffffff);
 }
 
 .btn--primary:hover:not(:disabled) {
-  background-color: var(--color-primary-dark, #4f46e5);
+  background-color: var(--color-primary-dark, #364fc7);
   transform: translateY(-2px);
 }
 

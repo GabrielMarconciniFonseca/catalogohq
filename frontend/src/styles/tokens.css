@@ -1,0 +1,234 @@
+/**
+ * Design Tokens - Catálogo HQ
+ * Baseado no protótipo Figma: https://www.figma.com/design/ZidlbmnbmHAhWXKHoqwpcv/Catalogo-Hq?node-id=61-3
+ * 
+ * Este arquivo centraliza todas as variáveis de design (cores, espaçamentos, tipografia, bordas)
+ * para garantir consistência em todo o projeto.
+ */
+
+:root {
+  /* ===========================
+     CORES - PALETA PRINCIPAL
+     =========================== */
+
+  /* Cores de Superfície */
+  --color-white: #ffffff;
+  --color-surface-alt: #f8f9fa; /* Background da aplicação (fill_TIIWQH) */
+  --color-surface-card: #ececf0; /* Background dos cards (fill_3DNB0D) */
+  --color-surface-fallback: #f3f4f6; /* Background de fallback de imagem (fill_XFC2L0) */
+  --color-surface-tag: #eceef2; /* Background das tags (fill_85DM4Z) */
+  --color-surface-tab: rgba(
+    236,
+    236,
+    240,
+    0.5
+  ); /* Background das abas (fill_NG4053) */
+
+  /* Cores de Texto */
+  --color-text-primary: #0a0a0a; /* Texto principal (fill_KH66FJ) */
+  --color-text-secondary: #717182; /* Texto secundário (fill_I76TMR) */
+  --color-text-tertiary: #030213; /* Texto em tags (fill_51U37N) */
+  --color-text-dark: #212529; /* Texto em badge "Lendo" (fill_KGFBQG) */
+
+  /* Cores de Status de Badges - Exatamente do Figma */
+  --color-badge-owned-bg: #4c6ef5; /* Badge "Na Coleção" (fill_ANTBD0) */
+  --color-badge-owned-text: #ffffff; /* Texto do badge "Na Coleção" (fill_535SQO) */
+
+  --color-badge-reading-bg: #ffd43b; /* Badge "Lendo" (fill_Z6KJAS) */
+  --color-badge-reading-text: #212529; /* Texto do badge "Lendo" (fill_KGFBQG) */
+
+  --color-badge-wishlist-bg: #e03131; /* Badge "Wishlist" (fill_X0POLC) */
+  --color-badge-wishlist-text: #ffffff; /* Texto do badge "Wishlist" (fill_535SQO) */
+
+  --color-badge-completed-bg: #51cf66; /* Badge "Completo" (fill_P8ZAI3) */
+  --color-badge-completed-text: #ffffff; /* Texto do badge "Completo" (fill_535SQO) */
+
+  /* Cores de Acento */
+  --color-primary: #4c6ef5; /* Cor primária (botões, links) */
+  --color-primary-dark: #364fc7; /* Cor primária escura (gradiente header) */
+  --color-rating-star: #ffd43b; /* Estrela de rating (fill_Z6KJAS) */
+  --color-rating-star-empty: rgba(
+    113,
+    113,
+    130,
+    0.3
+  ); /* Estrela vazia (stroke_IH1ZPB) */
+
+  /* Cores de Borda */
+  --color-border-transparent: rgba(
+    0,
+    0,
+    0,
+    0
+  ); /* Borda transparente (stroke_OM1NGE) */
+  --color-border-light: rgba(0, 0, 0, 0.1); /* Borda leve (stroke_8OBO71) */
+  --color-border-card: rgba(0, 0, 0, 0.1); /* Borda de card */
+
+  /* Overlay */
+  --color-overlay-gradient: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ); /* fill_AKENUV */
+
+  /* ===========================
+     TIPOGRAFIA
+     =========================== */
+
+  /* Font Family */
+  --font-family-base: "Arimo", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  /* Font Sizes */
+  --font-size-7: 7px; /* Texto de data no overlay (style_3OG7UM) */
+  --font-size-8: 8px; /* Rating, tags (style_M4BBK0, style_GMZHYQ) */
+  --font-size-10: 10px; /* Título do card (style_XKQJYM) */
+  --font-size-12: 12px; /* Badge (style_UMN9SA) */
+  --font-size-14: 14px; /* Abas, contador (style_LIJX0N) */
+  --font-size-24: 24px; /* Logo */
+
+  /* Line Heights */
+  --line-height-base: 1.5; /* Padrão geral */
+  --line-height-tight: 1.33; /* Badge (12px) */
+  --line-height-normal: 1.4285714286; /* Abas (14px) */
+  --line-height-compact: 1em; /* Tags (8px) */
+
+  /* ===========================
+     ESPAÇAMENTOS
+     =========================== */
+
+  /* Padding */
+  --spacing-xs: 2px; /* Padding tags, overlay */
+  --spacing-sm: 4px; /* Padding interno, gaps */
+  --spacing-md: 8px; /* Gap entre elementos */
+  --spacing-lg: 16px; /* Padding botões */
+  --spacing-xl: 24px; /* Gap do grid, padding containers */
+  --spacing-2xl: 32px; /* Padding header, containers principais */
+
+  /* Gaps específicos */
+  --gap-card-content: 2px; /* Gap entre elementos do card */
+  --gap-badge-icon: 4px; /* Gap ícone → texto no badge */
+  --gap-tab-icon: 8px; /* Gap ícone → texto nas abas */
+  --gap-grid: 24px; /* Gap entre cards no grid (desktop) */
+  --gap-grid-mobile: 16px; /* Gap entre cards no grid (mobile) */
+
+  /* ===========================
+     DIMENSÕES
+     =========================== */
+
+  /* Cards */
+  --card-width: 202px; /* Largura do card (layout_49N43Y) */
+  --card-height: 332px; /* Altura do card */
+  --card-image-height: 267px; /* Altura da imagem (layout_QYT4Z5) */
+  --card-content-height: 63px; /* Altura do conteúdo */
+
+  /* Header */
+  --header-height: 65px; /* Altura do header */
+  --header-max-width: 1528px; /* Largura máxima do container */
+
+  /* Abas */
+  --tab-height: 30px; /* Altura das abas (layout_HYURCI) */
+  --tab-icon-size: 16px; /* Tamanho dos ícones nas abas */
+
+  /* Badges */
+  --badge-height: 22px; /* Altura do badge (layout_8HPS5H) */
+  --badge-icon-size: 12px; /* Tamanho do ícone no badge */
+
+  /* Ícones */
+  --icon-size-sm: 6px; /* Ícone pequeno (calendário, estrela) */
+  --icon-size-md: 12px; /* Ícone médio (badge) */
+  --icon-size-lg: 16px; /* Ícone grande (abas) */
+  --icon-size-xl: 24px; /* Logo */
+
+  /* Overlay */
+  --overlay-height: 14.5px; /* Altura do overlay com data */
+
+  /* ===========================
+     BORDAS E RAIOS
+     =========================== */
+
+  /* Border Radius */
+  --radius-xs: 4px; /* Card (borderRadius do ComicCard) */
+  --radius-sm: 8px; /* Badge, tags, botão "Adicionar HQ" */
+  --radius-md: 12px; /* Componentes médios */
+  --radius-lg: 14px; /* Container de abas, botões das abas */
+
+  /* Border Width */
+  --border-width-thin: 1px; /* Bordas padrão (strokeWeight) */
+  --border-width-medium: 1.33px; /* Bordas de ícones específicos (stroke_EBECHQ) */
+
+  /* ===========================
+     SOMBRAS
+     =========================== */
+
+  /* Box Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-header: 0px 4px 6px -4px rgba(76, 110, 245, 0.25),
+    0px 10px 15px -3px rgba(76, 110, 245, 0.25);
+  --shadow-tab-active: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  /* ===========================
+     TRANSIÇÕES
+     =========================== */
+
+  /* Durations */
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+
+  /* Easings */
+  --ease-default: ease;
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ===========================
+     GRADIENTES
+     =========================== */
+
+  /* Header Gradient */
+  --gradient-header: linear-gradient(180deg, #4c6ef5 0%, #364fc7 100%);
+
+  /* Skeleton Loading Gradient */
+  --gradient-skeleton: linear-gradient(
+    90deg,
+    #f3f4f6 0%,
+    #e5e7eb 50%,
+    #f3f4f6 100%
+  );
+
+  /* Overlay Gradient */
+  --gradient-overlay: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  /* ===========================
+     Z-INDEX
+     =========================== */
+
+  --z-overlay: 1;
+  --z-badge: 2;
+  --z-dropdown: 10;
+  --z-modal: 100;
+  --z-header: 100;
+  --z-tooltip: 1000;
+
+  /* ===========================
+     BREAKPOINTS (para referência)
+     =========================== */
+
+  /*
+    --breakpoint-mobile-sm: 375px;
+    --breakpoint-mobile: 480px;
+    --breakpoint-tablet: 700px;
+    --breakpoint-tablet-lg: 900px;
+    --breakpoint-desktop-sm: 1200px;
+    --breakpoint-desktop: 1400px;
+    --breakpoint-desktop-lg: 1528px;
+  */
+}
