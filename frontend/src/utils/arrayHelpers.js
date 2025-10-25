@@ -11,9 +11,6 @@
  */
 export function ensureArray(value, context = "") {
   if (!Array.isArray(value)) {
-    if (context) {
-      console.warn(`[ensureArray] ${context}: Valor não é um array:`, value);
-    }
     return [];
   }
   return value;
@@ -27,17 +24,10 @@ export function ensureArray(value, context = "") {
  */
 export function validateApiResponse(response, apiEndpoint = "") {
   if (!response) {
-    console.warn(
-      `[validateApiResponse] ${apiEndpoint}: Resposta vazia ou null`
-    );
     return [];
   }
 
   if (!Array.isArray(response)) {
-    console.warn(
-      `[validateApiResponse] ${apiEndpoint}: Resposta não é um array:`,
-      response
-    );
     return [];
   }
 
@@ -69,10 +59,6 @@ export const SAFE_INITIAL_STATES = {
  */
 export function validateStateForArrayOperation(state, operation = "") {
   if (!Array.isArray(state)) {
-    console.error(
-      `[validateStateForArrayOperation] ${operation}: Estado não é um array:`,
-      state
-    );
     return false;
   }
   return true;

@@ -156,18 +156,13 @@ const apiClient = axios.create({
 // ============================================================================
 
 /**
- * Interceptor de requisição - adiciona logging e headers
+ * Interceptor de requisição - adiciona headers
  */
 apiClient.interceptors.request.use(
   (config) => {
-    // Log para desenvolvimento (pode ser removido em produção)
-    if (import.meta.env.DEV) {
-      console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
-    }
     return config;
   },
   (error) => {
-    console.error("[API] Erro na requisição:", error);
     return Promise.reject(error);
   }
 );
@@ -177,16 +172,9 @@ apiClient.interceptors.request.use(
  */
 apiClient.interceptors.response.use(
   (response) => {
-    // Log para desenvolvimento
-    if (import.meta.env.DEV) {
-      console.log(`[API] ${response.status} ${response.config.url}`);
-    }
     return response;
   },
   async (error) => {
-    // Log de erro
-    console.error("[API] Erro na resposta:", error);
-
     // Retry automático para erros de rede (opcional)
     const config = error.config;
     if (!config || !config.retry) {
@@ -197,7 +185,6 @@ apiClient.interceptors.response.use(
     if (error.code === "ECONNABORTED" || error.message === "Network Error") {
       if (config.retry < 2) {
         config.retry += 1;
-        console.log(`[API] Tentativa ${config.retry} de retry...`);
         return apiClient(config);
       }
     }
@@ -431,7 +418,6 @@ export async function fetchItems(filters = {}) {
     // Usar helper para validar resposta
     return validateApiResponse(response.data, "fetchItems");
   } catch (error) {
-    console.error("Erro ao buscar items:", error);
     throw parseError(error);
   }
 }
@@ -477,7 +463,6 @@ export async function fetchWishlist() {
     // Usar helper para validar resposta
     return validateApiResponse(response.data, "fetchWishlist");
   } catch (error) {
-    console.error("Erro ao buscar wishlist:", error);
     throw parseError(error);
   }
 }

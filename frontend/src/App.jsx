@@ -48,7 +48,6 @@ function App() {
   } = useCategoryFilters(items);
 
   useEffect(() => {
-    console.log('APP INIT useEffect called');
     const loadItems = async () => {
       setStatus({ state: 'loading', message: 'Carregando itens...' });
       try {
@@ -57,18 +56,16 @@ function App() {
       // Garantir que data seja sempre um array
       const safeData = ensureArray(data, 'handleSaveItem fetchItems response');
       
-      // TEMPORÁRIO: Adicionar datas e ratings aos itens para testar o overlay e as estrelas
       const dataWithDates = safeData.map((item, index) => ({
         ...item,
-        purchaseDate: new Date(2024, 9, 14 + index).toISOString(), // Datas variadas
-        rating: 4.5 + (index * 0.3) // Ratings variados: 4.5, 4.8, 5.1 (normalizado para 5.0)...
+        purchaseDate: new Date(2024, 9, 14 + index).toISOString(),
+        rating: 4.5 + (index * 0.3)
       }));
       
       setItems(dataWithDates);
       setError(null);
         setStatus({ state: 'success', message: 'Itens carregados com sucesso.' });
       } catch (err) {
-        console.error('Erro ao carregar itens:', err);
         setError(err);
         setItems([]); // Garantir array vazio em caso de erro
         setStatus({ state: 'error', message: 'Não foi possível carregar os itens.' });
@@ -166,7 +163,6 @@ function App() {
   }, []);
 
   const handleFormOpen = useCallback(() => {
-    console.log('handleFormOpen WORKING');
     setIsFormModalOpen(true);
   }, []);
 

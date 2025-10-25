@@ -74,7 +74,6 @@ export function useItemStatus() {
 
       return true;
     } catch (error) {
-      console.error("Erro ao atualizar status:", error);
       setFeedback({
         state: "error",
         message: error.message || "Erro ao atualizar status. Tente novamente.",
