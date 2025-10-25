@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import ModalAuth from './components/ModalAuth';
 import ModalForm from './components/ModalForm';
+import ItemDetailModal from './components/ItemDetailModal';
 import Feedback from './components/Feedback';
 import FeaturesSection from './components/FeaturesSection';
 import HeroSection from './components/HeroSection';
@@ -34,6 +35,9 @@ function App() {
   const [error, setError] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [itemDetails, setItemDetails] = useState(null);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
   // Hook customizado para gerenciar filtros e itens filtrados
   const {
@@ -81,6 +85,9 @@ function App() {
       setStatus({ state: 'loading', message: 'Carregando detalhes...' });
       const item = await fetchItemById(itemId);
       setSelectedItem(item);
+      // Abrir modal de detalhes
+      setItemDetails(item);
+      setIsDetailModalOpen(true);
       setError(null);
       setStatus({ state: 'success', message: 'Detalhes carregados.' });
     } catch (err) {
@@ -175,6 +182,23 @@ function App() {
     await handleSaveItem(itemData);
     setIsFormModalOpen(false);
   }, [handleSaveItem]);
+
+  // Handlers para modal de detalhes
+  const handleDetailModalClose = useCallback(() => {
+    setIsDetailModalOpen(false);
+    setItemDetails(null);
+  }, []);
+
+  const handleEditFromModal = useCallback((item) => {
+    setCurrentEditingItem(item);
+    setIsFormModalOpen(true);
+    handleDetailModalClose();
+  }, [handleDetailModalClose]);
+
+  const handleShareFromModal = useCallback((item) => {
+    console.log('Compartilhar:', item);
+    // TODO: Implementar lógica de compartilhamento
+  }, []);
 
   // Usar a função do hook para atualizar filtros (já é useCallback no hook)
   const handleFilterChange = updateFilters;
@@ -274,6 +298,14 @@ function App() {
           onClose={handleFormClose} 
           onSubmit={handleFormSubmit}
           isSubmitting={status.state === 'loading'}
+        />
+        <ItemDetailModal
+          isOpen={isDetailModalOpen}
+          onClose={handleDetailModalClose}
+          item={itemDetails}
+          onEdit={handleEditFromModal}
+          onShare={handleShareFromModal}
+          isLoading={isLoadingDetails}
         />
       </div>
     </Layout>

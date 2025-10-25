@@ -1,0 +1,37 @@
+/* ==============================
+   ACTIONS CONTAINER
+   ============================== */
+
+.item-detail-actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0 16px;
+}
+
+.item-detail-actions__button {
+  flex: 1;
+  padding: 8px 16px;
+  height: 36px;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 640px) {
+  .item-detail-actions {
+    margin: 0 12px;
+    padding: 16px 0;
+  }
+
+  .item-detail-actions__button {
+    padding: 8px 12px;
+  }
+}
