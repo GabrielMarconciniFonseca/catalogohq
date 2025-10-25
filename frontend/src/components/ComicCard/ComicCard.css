@@ -15,6 +15,39 @@
     box-shadow var(--transition-fast, 0.2s) var(--ease-default, ease);
 }
 
+/* ===========================
+   RESPONSIVIDADE - CARDS
+   =========================== */
+
+/* Mobile - Cards fluidos mantendo proporção */
+@media (max-width: 699px) {
+  .comic-card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 0.608; /* 202/332 */
+    min-height: 300px;
+  }
+
+  .comic-card__image-container {
+    height: 0;
+    padding-bottom: 132.2%; /* (267/202) * 100% */
+    position: relative;
+  }
+
+  .comic-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+/* Mobile Small - Cards menores mas mantendo proporção */
+@media (max-width: 479px) {
+  .comic-card {
+    min-height: 280px;
+  }
+}
+
 .comic-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover, 0 4px 12px rgba(0, 0, 0, 0.1));

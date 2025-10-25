@@ -219,16 +219,76 @@
   --z-tooltip: 1000;
 
   /* ===========================
-     BREAKPOINTS (para referência)
+     BREAKPOINTS
      =========================== */
 
-  /*
-    --breakpoint-mobile-sm: 375px;
-    --breakpoint-mobile: 480px;
-    --breakpoint-tablet: 700px;
-    --breakpoint-tablet-lg: 900px;
-    --breakpoint-desktop-sm: 1200px;
-    --breakpoint-desktop: 1400px;
-    --breakpoint-desktop-lg: 1528px;
-  */
+  --breakpoint-mobile: 375px;
+  --breakpoint-mobile-lg: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-tablet-lg: 900px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-desktop-lg: 1200px;
+  --breakpoint-desktop-xl: 1440px;
+
+  /* ===========================
+     RESPONSIVIDADE - HEADER
+     =========================== */
+
+  --header-height-mobile: 110px; /* 2 linhas no mobile */
+  --header-height-tablet: 65px;
+  --header-height-desktop: 65px;
+
+  --header-padding-mobile: 12px;
+  --header-padding-tablet: 16px;
+  --header-padding-desktop: 32px;
+
+  --search-max-width-mobile: 100%;
+  --search-max-width-tablet: 400px;
+  --search-max-width-desktop: 576px;
+
+  --logo-size-mobile: 20px;
+  --logo-size-desktop: 24px;
+
+  /* ===========================
+     RESPONSIVIDADE - GRID
+     =========================== */
+
+  --grid-columns-mobile: 1;
+  --grid-columns-mobile-lg: 2;
+  --grid-columns-tablet: 3;
+  --grid-columns-desktop: 4;
+  --grid-columns-desktop-lg: 5;
+  --grid-columns-desktop-xl: 6;
+
+  --grid-gap-mobile: 12px;
+  --grid-gap-mobile-lg: 16px;
+  --grid-gap-tablet: 16px;
+  --grid-gap-desktop: 20px;
+  --grid-gap-desktop-lg: 24px;
+  --grid-gap-desktop-xl: 24px;
+
+  --grid-padding-mobile: 8px;
+  --grid-padding-mobile-lg: 12px;
+  --grid-padding-tablet: 16px;
+  --grid-padding-desktop: 20px;
+  --grid-padding-desktop-lg: 24px;
+  --grid-padding-desktop-xl: 32px;
+
+  /* ===========================
+     RESPONSIVIDADE - CARDS
+     =========================== */
+
+  --card-min-width-mobile: 280px;
+  --card-aspect-ratio: 0.608; /* 202/332 ≈ 0.608 */
+
+  /* ===========================
+     RESPONSIVIDADE - ABAS
+     =========================== */
+
+  --tab-font-size-mobile: 0; /* Oculta texto no mobile */
+  --tab-font-size-tablet: 14px;
+  --tab-gap-mobile: 4px;
+  --tab-gap-tablet: 8px;
+  --tab-padding-mobile: 8px;
+  --tab-padding-tablet: 12px;
 }

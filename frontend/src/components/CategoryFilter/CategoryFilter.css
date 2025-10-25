@@ -57,3 +57,76 @@
   color: var(--color-text-primary, #0a0a0a);
   white-space: nowrap;
 }
+
+/* ===========================
+   RESPONSIVIDADE
+   =========================== */
+
+/* Tablet - Reduzir padding */
+@media (max-width: 1024px) {
+  .filter-button {
+    padding: 0 var(--spacing-md, 12px);
+    gap: var(--spacing-sm, 6px);
+  }
+
+  .filter-button .text {
+    font-size: 13px;
+  }
+}
+
+/* Tablet pequeno - Ícones + Contador */
+@media (max-width: 768px) {
+  .category-filter {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    padding: 0 var(--spacing-xs, 2px);
+  }
+
+  .category-filter::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  .filter-button {
+    padding: 0 var(--spacing-md, 10px);
+    gap: var(--spacing-sm, 4px);
+    flex: 0 0 auto;
+    min-width: 60px;
+  }
+
+  .filter-button .text {
+    font-size: 12px;
+  }
+}
+
+/* Mobile - Apenas ícones + contador */
+@media (max-width: 480px) {
+  .category-filter {
+    justify-content: flex-start;
+    gap: var(--spacing-xs, 2px);
+  }
+
+  .filter-button {
+    padding: 0 var(--spacing-md, 8px);
+    gap: var(--spacing-xs, 2px);
+    min-width: 48px;
+    flex: 0 0 auto;
+  }
+
+  .filter-button .text {
+    display: none;
+  }
+
+  .filter-button .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Badge de contador sempre visível */
+  .filter-button .badge {
+    display: inline-flex;
+    min-width: 16px;
+    font-size: 10px;
+  }
+}

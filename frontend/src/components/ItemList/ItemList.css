@@ -1,66 +1,94 @@
 /* Grid Layout - Seguindo dimensões do Figma (202x332 px por card) */
 .item-list {
   display: grid;
-  grid-template-columns: repeat(6, 202px);
-  gap: 24px;
   width: 100%;
   justify-content: center;
-  padding: 0 16px;
 }
 
-/* Desktop grande - 6 colunas */
-@media (min-width: 1400px) {
+/* ===========================
+   BREAKPOINTS RESPONSIVOS
+   =========================== */
+
+/* Desktop XL - 1440px+ - 6 colunas */
+@media (min-width: 1440px) {
   .item-list {
     grid-template-columns: repeat(6, 202px);
-    gap: 24px;
+    gap: var(--grid-gap-desktop-xl, 24px);
     max-width: 1528px;
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 0 var(--grid-padding-desktop-xl, 32px);
   }
 }
 
-/* Desktop médio - 5 colunas */
-@media (max-width: 1399px) and (min-width: 1200px) {
+/* Desktop Large - 1200px-1439px - 5 colunas */
+@media (max-width: 1439px) and (min-width: 1200px) {
   .item-list {
     grid-template-columns: repeat(5, 202px);
-    gap: 24px;
-    padding: 0 24px;
+    gap: var(--grid-gap-desktop-lg, 24px);
+    padding: 0 var(--grid-padding-desktop-lg, 24px);
   }
 }
 
-/* Tablet grande - 4 colunas */
-@media (max-width: 1199px) and (min-width: 900px) {
+/* Desktop - 1024px-1199px - 4 colunas */
+@media (max-width: 1199px) and (min-width: 1024px) {
   .item-list {
     grid-template-columns: repeat(4, 202px);
-    gap: 20px;
-    padding: 0 20px;
+    gap: var(--grid-gap-desktop, 20px);
+    padding: 0 var(--grid-padding-desktop, 20px);
   }
 }
 
-/* Tablet - 3 colunas */
-@media (max-width: 899px) and (min-width: 700px) {
+/* Tablet Large - 900px-1023px - 4 colunas */
+@media (max-width: 1023px) and (min-width: 900px) {
+  .item-list {
+    grid-template-columns: repeat(4, 202px);
+    gap: var(--grid-gap-desktop, 20px);
+    padding: 0 var(--grid-padding-desktop, 20px);
+  }
+}
+
+/* Tablet - 768px-899px - 3 colunas */
+@media (max-width: 899px) and (min-width: 768px) {
   .item-list {
     grid-template-columns: repeat(3, 202px);
-    gap: 16px;
-    padding: 0 16px;
+    gap: var(--grid-gap-tablet, 16px);
+    padding: 0 var(--grid-padding-tablet, 16px);
   }
 }
 
-/* Mobile grande - 2 colunas */
+/* Tablet Small - 700px-767px - 3 colunas */
+@media (max-width: 767px) and (min-width: 700px) {
+  .item-list {
+    grid-template-columns: repeat(3, 202px);
+    gap: var(--grid-gap-tablet, 16px);
+    padding: 0 var(--grid-padding-tablet, 16px);
+  }
+}
+
+/* Mobile Large - 480px-699px - 2 colunas fluidas */
 @media (max-width: 699px) and (min-width: 480px) {
   .item-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 0 12px;
+    gap: var(--grid-gap-mobile-lg, 16px);
+    padding: 0 var(--grid-padding-mobile-lg, 12px);
   }
 }
 
-/* Mobile pequeno - 1-2 colunas adaptativas */
-@media (max-width: 479px) {
+/* Mobile - 375px-479px - 1 coluna */
+@media (max-width: 479px) and (min-width: 375px) {
   .item-list {
-    gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    padding: 0 8px;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap-mobile, 12px);
+    padding: 0 var(--grid-padding-mobile, 8px);
+  }
+}
+
+/* Mobile Small - menos de 375px - 1 coluna */
+@media (max-width: 374px) {
+  .item-list {
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap-mobile, 12px);
+    padding: 0 var(--grid-padding-mobile, 8px);
   }
 }
 
@@ -73,79 +101,11 @@
   font-size: 16px;
 }
 
-/* Grid Layout - Seguindo dimensões do Figma (202x332 px por card) */
-.item-list {
-  display: grid;
-  grid-template-columns: repeat(6, 202px);
-  gap: 24px;
-  width: 100%;
-  justify-content: center;
-  padding: 0 16px;
-}
-
-/* Desktop grande - 6 colunas */
-@media (min-width: 1400px) {
-  .item-list {
-    grid-template-columns: repeat(6, 202px);
-    gap: 24px;
-    max-width: 1528px;
-    margin: 0 auto;
-    padding: 0 32px;
+@media (max-width: 768px) {
+  .item-list__placeholder {
+    padding: 32px 12px;
+    font-size: 14px;
   }
-}
-
-/* Desktop médio - 5 colunas */
-@media (max-width: 1399px) and (min-width: 1200px) {
-  .item-list {
-    grid-template-columns: repeat(5, 202px);
-    gap: 24px;
-    padding: 0 24px;
-  }
-}
-
-/* Tablet grande - 4 colunas */
-@media (max-width: 1199px) and (min-width: 900px) {
-  .item-list {
-    grid-template-columns: repeat(4, 202px);
-    gap: 20px;
-    padding: 0 20px;
-  }
-}
-
-/* Tablet - 3 colunas */
-@media (max-width: 899px) and (min-width: 700px) {
-  .item-list {
-    grid-template-columns: repeat(3, 202px);
-    gap: 16px;
-    padding: 0 16px;
-  }
-}
-
-/* Mobile grande - 2 colunas */
-@media (max-width: 699px) and (min-width: 480px) {
-  .item-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 0 12px;
-  }
-}
-
-/* Mobile pequeno - 1-2 colunas adaptativas */
-@media (max-width: 479px) {
-  .item-list {
-    gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    padding: 0 8px;
-  }
-}
-
-/* Placeholders */
-.item-list__placeholder {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 48px 16px;
-  color: var(--color-muted);
-  font-size: 16px;
 }
 
 .item-list__placeholder--error {
