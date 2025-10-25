@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import ModalAuth from './components/ModalAuth';
 import ModalForm from './components/ModalForm';
 import Feedback from './components/Feedback';
@@ -78,7 +78,8 @@ function App() {
     loadItems();
   }, []);
 
-  const handleSelectItem = async (itemId) => {
+  // Handler memoizado para seleção de item
+  const handleSelectItem = useCallback(async (itemId) => {
     try {
       setStatus({ state: 'loading', message: 'Carregando detalhes...' });
       const item = await fetchItemById(itemId);
@@ -89,9 +90,10 @@ function App() {
       setError(err);
       setStatus({ state: 'error', message: 'Não foi possível carregar os detalhes.' });
     }
-  };
+  }, []);
 
-  const handleCreateItem = async (formData) => {
+  // Handler memoizado para criação de item
+  const handleCreateItem = useCallback(async (formData) => {
     try {
       setStatus({ state: 'loading', message: 'Salvando edição...' });
       const newItem = await createItem(formData);
@@ -110,11 +112,12 @@ function App() {
       setStatus({ state: 'error', message: err.message ?? 'Erro ao salvar edição.' });
       throw err;
     }
-  };
+  }, []);
 
 
 
-  const handleStatusChange = async (itemId, nextStatus) => {
+  // Handler memoizado para mudança de status
+  const handleStatusChange = useCallback(async (itemId, nextStatus) => {
     try {
       setStatus({ state: 'loading', message: 'Atualizando status...' });
       const updated = await updateItemStatus(itemId, nextStatus);
@@ -132,12 +135,10 @@ function App() {
       setError(err);
       setStatus({ state: 'error', message: err.message ?? 'Não foi possível atualizar o status.' });
     }
-  };
+  }, []);
 
-  // Usar a função do hook para atualizar filtros
-  const handleFilterChange = updateFilters;
-
-  const handleSaveItem = async (itemData) => {
+  // Handler memoizado para salvar item
+  const handleSaveItem = useCallback(async (itemData) => {
     setStatus({ state: 'loading', message: 'Salvando item...' });
     try {
       await createItem(itemData);
@@ -153,38 +154,45 @@ function App() {
       setError(err);
       setStatus({ state: 'error', message: err.message ?? 'Não foi possível salvar o item.' });
     }
-  };
+  }, []);
 
-  const handleLoginClick = () => {
+  // Handlers memoizados para modais
+  const handleLoginClick = useCallback(() => {
     setIsAuthModalOpen(true);
-  };
+  }, []);
 
-  const handleAuthClose = () => {
+  const handleAuthClose = useCallback(() => {
     setIsAuthModalOpen(false);
-  };
+  }, []);
 
-  const handleFormOpen = () => {
+  const handleFormOpen = useCallback(() => {
     console.log('handleFormOpen WORKING');
     setIsFormModalOpen(true);
-  };
+  }, []);
 
-  const handleFormClose = () => {
+  const handleFormClose = useCallback(() => {
     setIsFormModalOpen(false);
     setCurrentEditingItem(null);
-  };
+  }, []);
 
-  const handleFormSubmit = async (itemData) => {
+  const handleFormSubmit = useCallback(async (itemData) => {
     await handleSaveItem(itemData);
     setIsFormModalOpen(false);
-  };
+  }, [handleSaveItem]);
 
-  const layoutHeaderSearch = isAuthenticated ? (
-    <SearchBar
-      filters={filters}
-      onChange={handleFilterChange}
-      isLoading={status.state === 'loading'}
-    />
-  ) : null;
+  // Usar a função do hook para atualizar filtros (já é useCallback no hook)
+  const handleFilterChange = updateFilters;
+
+  // Conteúdo do header memoizado
+  const layoutHeaderSearch = useMemo(() => (
+    isAuthenticated ? (
+      <SearchBar
+        filters={filters}
+        onChange={handleFilterChange}
+        isLoading={status.state === 'loading'}
+      />
+    ) : null
+  ), [isAuthenticated, filters, handleFilterChange, status.state]);
 
   const layoutHeaderActions = null;
 

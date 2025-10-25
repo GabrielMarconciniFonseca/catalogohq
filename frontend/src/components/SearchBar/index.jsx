@@ -1,12 +1,22 @@
+import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import searchIcon from '../../assets/figma/search-container-icon.svg';
 import './SearchBar.css';
 
 function SearchBar({ filters, onChange, isLoading }) {
-  const handleChange = (event) => {
+  // Handler memoizado para evitar re-criação em cada render
+  const handleChange = useCallback((event) => {
     const { name, value } = event.target;
     onChange({ [name]: value });
-  };
+  }, [onChange]);
+
+  // Valor do termo de busca derivado e memoizado
+  const searchTerm = useMemo(() => filters.term || '', [filters.term]);
+
+  // Status de loading memoizado
+  const loadingText = useMemo(() => (
+    isLoading ? 'Atualizando...' : null
+  ), [isLoading]);
 
   return (
     <div className="search-bar">
@@ -22,16 +32,16 @@ function SearchBar({ filters, onChange, isLoading }) {
         <input
           id="search-term"
           name="term"
-          value={filters.term}
+          value={searchTerm}
           onChange={handleChange}
           placeholder="Buscar HQs, séries, editoras..."
           aria-label="Buscar HQ"
           className="search-bar__input"
         />
       </div>
-      {isLoading && (
+      {loadingText && (
         <span className="search-bar__status" role="status" aria-live="polite">
-          Atualizando...
+          {loadingText}
         </span>
       )}
     </div>

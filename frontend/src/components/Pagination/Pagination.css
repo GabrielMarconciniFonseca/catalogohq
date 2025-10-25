@@ -1,0 +1,180 @@
+/* Estilos do componente de Paginação */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 0;
+  margin-top: 32px;
+  border-top: 1px solid #eceef2;
+}
+
+.pagination__info {
+  font-family: "Arimo", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #717182;
+}
+
+.pagination__info strong {
+  font-weight: 600;
+  color: #030213;
+}
+
+.pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #eceef2;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #030213;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination__button:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #4c6ef5;
+  color: #4c6ef5;
+}
+
+.pagination__button:active:not(:disabled) {
+  background: #eceef2;
+}
+
+.pagination__button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination__button svg {
+  flex-shrink: 0;
+}
+
+.pagination__pages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination__page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  font-family: "Arimo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #030213;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination__page:hover {
+  background: #f3f4f6;
+  border-color: #eceef2;
+}
+
+.pagination__page--active {
+  background: #4c6ef5;
+  border-color: #4c6ef5;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.pagination__page--active:hover {
+  background: #3b5bdb;
+  border-color: #3b5bdb;
+}
+
+.pagination__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  font-family: "Arimo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #717182;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .pagination {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .pagination__info {
+    order: 1;
+    font-size: 12px;
+  }
+
+  .pagination__controls {
+    order: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .pagination__button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pagination__page {
+    min-width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .pagination__dots {
+    min-width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination__button--first,
+  .pagination__button--last {
+    display: none;
+  }
+
+  .pagination__pages {
+    gap: 2px;
+  }
+
+  .pagination__page {
+    min-width: 28px;
+    height: 28px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+
+  .pagination__dots {
+    min-width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}
