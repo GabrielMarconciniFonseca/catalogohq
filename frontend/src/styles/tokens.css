@@ -23,6 +23,9 @@
     240,
     0.5
   ); /* Background das abas (fill_NG4053) */
+  --color-footer-bg: #101828; /* Background do footer */
+  --color-footer-text: #e5e7eb; /* Texto do footer */
+  --color-footer-text-muted: #9ca3af; /* Texto muted do footer */
 
   /* Cores de Texto */
   --color-text-primary: #0a0a0a; /* Texto principal (fill_KH66FJ) */
@@ -89,6 +92,7 @@
   --font-size-10: 10px; /* Título do card (style_XKQJYM) */
   --font-size-12: 12px; /* Badge (style_UMN9SA) */
   --font-size-14: 14px; /* Abas, contador (style_LIJX0N) */
+  --font-size-16: 16px; /* Subtítulos, labels */
   --font-size-24: 24px; /* Logo */
 
   /* Line Heights */
