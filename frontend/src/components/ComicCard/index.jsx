@@ -3,6 +3,7 @@ import { useState, memo, useMemo, useCallback } from 'react';
 import CardBadge from './CardBadge';
 import CardRating from './CardRating';
 import CardTags from './CardTags';
+import ItemStatusMenu from '../ItemStatusMenu';
 import './ComicCard.css';
 
 /**
@@ -89,9 +90,11 @@ const getOptimizedImageUrl = (url, size = 'medium') => {
  * @param {object} item - Dados da HQ
  * @param {function} onSelect - Callback ao clicar no card
  */
-const ComicCard = memo(function ComicCard({ item, onSelect }) {
+const ComicCard = memo(function ComicCard({ item, onSelect, onStatusChanged }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [showStatusMenu, setShowStatusMenu] = useState(false);
+  const [itemStatus, setItemStatus] = useState(item.status);
 
   // Memoiza as URLs das imagens
   const imageUrls = useMemo(() => ({
@@ -122,6 +125,23 @@ const ComicCard = memo(function ComicCard({ item, onSelect }) {
       onSelect(item.id);
     }
   }, [onSelect, item.id]);
+
+  const handleBadgeClick = useCallback((e) => {
+    e.stopPropagation();
+    setShowStatusMenu(!showStatusMenu);
+  }, [showStatusMenu]);
+
+  const handleStatusChanged = useCallback((itemId, newStatus) => {
+    setItemStatus(newStatus);
+    setShowStatusMenu(false);
+    if (onStatusChanged) {
+      onStatusChanged(itemId, newStatus);
+    }
+  }, [onStatusChanged]);
+
+  const handleCloseStatusMenu = useCallback(() => {
+    setShowStatusMenu(false);
+  }, []);
 
   // Memoiza o subtítulo
   const subtitle = useMemo(() => {
@@ -168,8 +188,28 @@ const ComicCard = memo(function ComicCard({ item, onSelect }) {
           )}
         </div>
 
-        {/* Badge de status */}
-        <CardBadge status={item.status} />
+        {/* Badge de status - clicável */}
+        <div 
+          className="comic-card__badge-wrapper"
+          onClick={handleBadgeClick}
+          role="button"
+          tabIndex={0}
+          aria-label={`Mudar status de ${item.title}`}
+        >
+          <CardBadge status={itemStatus} />
+          
+          {/* Menu de mudança de status */}
+          {showStatusMenu && (
+            <div className="comic-card__status-menu-container">
+              <ItemStatusMenu
+                itemId={item.id}
+                currentStatus={itemStatus}
+                onStatusChanged={handleStatusChanged}
+                onClose={handleCloseStatusMenu}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Overlay com data (visível no hover) */}
         {formattedDate && (
@@ -222,6 +262,7 @@ ComicCard.propTypes = {
     addedDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
   }).isRequired,
   onSelect: PropTypes.func.isRequired,
+  onStatusChanged: PropTypes.func,
 };
 
 export default ComicCard;

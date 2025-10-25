@@ -261,6 +261,38 @@
   flex-shrink: 0;
 }
 
+/* ===========================
+   BADGE E MENU DE STATUS
+   =========================== */
+
+.comic-card__badge-wrapper {
+  position: absolute;
+  top: var(--spacing-sm, 4px);
+  right: var(--spacing-sm, 4px);
+  cursor: pointer;
+  z-index: var(--z-badge, 10);
+}
+
+.comic-card__status-menu-container {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--spacing-xs, 2px);
+  z-index: calc(var(--z-badge, 10) + 1);
+  animation: slideDown var(--transition-fast, 0.2s) var(--ease-default, ease);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsividade */
 @media (max-width: 699px) {
   .comic-card {

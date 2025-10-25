@@ -103,32 +103,39 @@ const getStatusIcon = (status) => {
 };
 
 /**
- * CardBadge - Badge de status do card
+ * CardBadge - Badge de status do card (clicável para abrir menu)
  * @param {string} status - Status da HQ (OWNED, READING, WISHLIST, COMPLETED)
+ * @param {function} onClick - Callback ao clicar no badge
  */
-const CardBadge = memo(function CardBadge({ status }) {
+const CardBadge = memo(function CardBadge({ status, onClick }) {
   const config = getStatusConfig(status);
 
   return (
-    <div 
+    <button
+      type="button"
       className={`card-badge card-badge--${config.className}`}
       style={{
         backgroundColor: config.backgroundColor,
         color: config.textColor,
       }}
+      onClick={onClick}
+      aria-label={`Mudar status: ${config.label}`}
+      title={`Mudar status: ${config.label}`}
     >
       {getStatusIcon(status)}
       <span className="card-badge__label">{config.label}</span>
-    </div>
+    </button>
   );
 });
 
 CardBadge.propTypes = {
   status: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 CardBadge.defaultProps = {
   status: 'OWNED',
+  onClick: () => {},
 };
 
 export default CardBadge;
