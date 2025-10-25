@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, memo, useMemo, useCallback } from 'react';
 import CardBadge from './CardBadge';
 import CardRating from './CardRating';
 import CardTags from './CardTags';
@@ -8,7 +8,7 @@ import './ComicCard.css';
 /**
  * Ícone placeholder para imagem sem src
  */
-const ImagePlaceholderIcon = () => (
+const ImagePlaceholderIcon = memo(() => (
   <svg 
     width="88" 
     height="88" 
@@ -32,72 +32,110 @@ const ImagePlaceholderIcon = () => (
       strokeWidth="2"
     />
   </svg>
-);
+));
+
+ImagePlaceholderIcon.displayName = 'ImagePlaceholderIcon';
 
 /**
  * Ícone de calendário para o overlay de data
  */
-const CalendarIcon = () => (
+const CalendarIcon = memo(() => (
   <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
     <line x1="2" y1="0.5" x2="2" y2="1.5" stroke="white" strokeWidth="0.5" strokeLinecap="round" />
     <line x1="4" y1="0.5" x2="4" y2="1.5" stroke="white" strokeWidth="0.5" strokeLinecap="round" />
     <rect x="0.75" y="1" width="4.5" height="4.5" rx="0.5" stroke="white" strokeWidth="0.5" />
     <line x="0.75" y="2.5" x2="5.25" y2="2.5" stroke="white" strokeWidth="0.5" />
   </svg>
-);
+));
+
+CalendarIcon.displayName = 'CalendarIcon';
+
+/**
+ * Formata a data para exibição (memoizado fora do componente)
+ */
+const formatDate = (date) => {
+  if (!date) return null;
+  
+  try {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString('pt-BR');
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Gera URL otimizada da imagem (memoizado fora do componente)
+ */
+const getOptimizedImageUrl = (url, size = 'medium') => {
+  if (!url) return null;
+  
+  const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+  const backendBase = baseURL.replace('/api', '');
+  
+  let fullUrl = url;
+  if (!url.startsWith('http')) {
+    fullUrl = `${backendBase}${url}`;
+  }
+  
+  if (fullUrl.includes('?')) {
+    return `${fullUrl}&size=${size}`;
+  }
+  return `${fullUrl}?size=${size}`;
+};
 
 /**
  * ComicCard - Card de HQ com todas as informações
  * @param {object} item - Dados da HQ
  * @param {function} onSelect - Callback ao clicar no card
  */
-function ComicCard({ item, onSelect }) {
+const ComicCard = memo(function ComicCard({ item, onSelect }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  /**
-   * Gera URL otimizada da imagem
-   */
-  const getOptimizedImageUrl = (url, size = 'medium') => {
-    if (!url) return null;
-    
-    const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
-    const backendBase = baseURL.replace('/api', '');
-    
-    let fullUrl = url;
-    if (!url.startsWith('http')) {
-      fullUrl = `${backendBase}${url}`;
-    }
-    
-    if (fullUrl.includes('?')) {
-      return `${fullUrl}&size=${size}`;
-    }
-    return `${fullUrl}?size=${size}`;
-  };
+  // Memoiza as URLs das imagens
+  const imageUrls = useMemo(() => ({
+    small: getOptimizedImageUrl(item.imageUrl, 'small'),
+    large: getOptimizedImageUrl(item.imageUrl, 'large'),
+  }), [item.imageUrl]);
 
-  /**
-   * Formata a data para exibição
-   */
-  const formatDate = (date) => {
-    if (!date) return null;
-    
-    try {
-      const dateObj = new Date(date);
-      return dateObj.toLocaleDateString('pt-BR');
-    } catch {
-      return null;
-    }
-  };
+  // Memoiza a data formatada
+  const formattedDate = useMemo(
+    () => formatDate(item.purchaseDate || item.addedDate),
+    [item.purchaseDate, item.addedDate]
+  );
 
+  // Memoiza os estados de imagem
   const hasError = imageError;
   const hasImage = item.imageUrl && !hasError;
-  const formattedDate = formatDate(item.purchaseDate || item.addedDate);
+
+  // Callbacks otimizados
+  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
+  const handleImageError = useCallback(() => setImageError(true), []);
+  
+  const handleClick = useCallback(() => {
+    onSelect(item.id);
+  }, [onSelect, item.id]);
+
+  const handleKeyPress = useCallback((e) => {
+    if (e.key === 'Enter') {
+      onSelect(item.id);
+    }
+  }, [onSelect, item.id]);
+
+  // Memoiza o subtítulo
+  const subtitle = useMemo(() => {
+    if (item.series) {
+      return `${item.series} • #${item.issue || '1'}`;
+    }
+    return `#${item.issue || '1'}`;
+  }, [item.series, item.issue]);
 
   return (
     <div 
       className="comic-card"
-      onClick={() => onSelect(item.id)}
-      onKeyPress={(e) => e.key === 'Enter' && onSelect(item.id)}
+      onClick={handleClick}
+      onKeyPress={handleKeyPress}
       role="button"
       tabIndex={0}
       aria-label={`Ver detalhes de ${item.title}`}
@@ -118,13 +156,13 @@ function ComicCard({ item, onSelect }) {
                 <div className="comic-card__image-skeleton" />
               )}
               <img
-                data-src={getOptimizedImageUrl(item.imageUrl, 'large')}
-                src={getOptimizedImageUrl(item.imageUrl, 'small')}
+                data-src={imageUrls.large}
+                src={imageUrls.small}
                 alt={`Capa de ${item.title}`}
                 loading="lazy"
                 className={`comic-card__image-element ${imageLoaded ? 'loaded' : 'loading'}`}
-                onLoad={() => setImageLoaded(true)}
-                onError={() => setImageError(true)}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
               />
             </>
           )}
@@ -149,9 +187,7 @@ function ComicCard({ item, onSelect }) {
         {/* Título e subtítulo */}
         <div className="comic-card__header">
           <h3 className="comic-card__title">{item.title}</h3>
-          <p className="comic-card__subtitle">
-            {item.series ? `${item.series} • #${item.issue || '1'}` : `#${item.issue || '1'}`}
-          </p>
+          <p className="comic-card__subtitle">{subtitle}</p>
         </div>
 
         {/* Info: Publisher, Year, Rating */}
@@ -168,7 +204,7 @@ function ComicCard({ item, onSelect }) {
       </div>
     </div>
   );
-}
+});
 
 ComicCard.propTypes = {
   item: PropTypes.shape({

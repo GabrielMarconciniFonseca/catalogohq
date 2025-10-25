@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo, useMemo } from 'react';
 import './CardRating.css';
 
 /**
@@ -27,7 +28,7 @@ const getStarFillPercentage = (rating, starIndex) => {
  * @param {number} fillPercentage - Porcentagem de preenchimento (0-100)
  * @param {number} index - Índice da estrela para ID único
  */
-const StarIcon = ({ fillPercentage, index }) => {
+const StarIcon = memo(function StarIcon({ fillPercentage, index }) {
   const gradientId = `star-gradient-${index}`;
   const isFilled = fillPercentage > 0;
   
@@ -54,7 +55,7 @@ const StarIcon = ({ fillPercentage, index }) => {
       />
     </svg>
   );
-};
+});
 
 StarIcon.propTypes = {
   fillPercentage: PropTypes.number.isRequired,
@@ -65,27 +66,35 @@ StarIcon.propTypes = {
  * CardRating - Componente de rating com estrelas cheias/parciais
  * @param {number} rating - Nota de 0 a 5
  */
-function CardRating({ rating = 0 }) {
-  const normalizedRating = Math.min(Math.max(rating, 0), 5);
+const CardRating = memo(function CardRating({ rating = 0 }) {
+  const normalizedRating = useMemo(
+    () => Math.min(Math.max(rating, 0), 5),
+    [rating]
+  );
+
+  const stars = useMemo(
+    () => [1, 2, 3, 4, 5].map((starIndex) => {
+      const fillPercentage = getStarFillPercentage(normalizedRating, starIndex);
+      return { starIndex, fillPercentage };
+    }),
+    [normalizedRating]
+  );
   
   return (
     <div className="card-rating">
       <div className="card-rating__stars">
-        {[1, 2, 3, 4, 5].map((starIndex) => {
-          const fillPercentage = getStarFillPercentage(normalizedRating, starIndex);
-          return (
-            <StarIcon 
-              key={starIndex} 
-              fillPercentage={fillPercentage}
-              index={starIndex}
-            />
-          );
-        })}
+        {stars.map(({ starIndex, fillPercentage }) => (
+          <StarIcon 
+            key={starIndex} 
+            fillPercentage={fillPercentage}
+            index={starIndex}
+          />
+        ))}
       </div>
       <span className="card-rating__value">{normalizedRating.toFixed(1)}</span>
     </div>
   );
-}
+});
 
 CardRating.propTypes = {
   rating: PropTypes.number,

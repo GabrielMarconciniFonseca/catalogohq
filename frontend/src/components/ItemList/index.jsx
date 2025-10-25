@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 import ComicCard from '../ComicCard';
 import './ItemList.css';
 
-function ItemList({ items, onSelectItem, isLoading, error }) {
+const ItemList = memo(function ItemList({ items, onSelectItem, isLoading, error }) {
 
   if (isLoading) {
     return <p className="item-list__placeholder">Carregando listagem...</p>;
@@ -31,7 +32,7 @@ function ItemList({ items, onSelectItem, isLoading, error }) {
       ))}
     </div>
   );
-}
+});
 
 ItemList.propTypes = {
   items: PropTypes.arrayOf(

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo, useMemo } from 'react';
 import './CardTags.css';
 
 /**
@@ -6,12 +7,20 @@ import './CardTags.css';
  * @param {string[]} tags - Array de tags
  * @param {number} maxTags - Número máximo de tags a exibir
  */
-function CardTags({ tags = [], maxTags = 3 }) {
-  if (!tags || tags.length === 0) {
+const CardTags = memo(function CardTags({ tags = [], maxTags = 3 }) {
+  const displayTags = useMemo(
+    () => {
+      if (!tags || tags.length === 0) {
+        return [];
+      }
+      return tags.slice(0, maxTags);
+    },
+    [tags, maxTags]
+  );
+
+  if (displayTags.length === 0) {
     return null;
   }
-
-  const displayTags = tags.slice(0, maxTags);
 
   return (
     <div className="card-tags">
@@ -25,7 +34,7 @@ function CardTags({ tags = [], maxTags = 3 }) {
       })}
     </div>
   );
-}
+});
 
 CardTags.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string),

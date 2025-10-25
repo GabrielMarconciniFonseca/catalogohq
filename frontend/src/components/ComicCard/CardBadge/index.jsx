@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 import { getStatusConfig, COMIC_STATUS } from '../../../constants/comicStatus';
 import './CardBadge.css';
 
 /**
  * Ícone de coleção para o badge (status OWNED)
  */
-const CollectionIcon = () => (
+const CollectionIcon = memo(() => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M5 1L6.66667 1C7.33333 1 8 1 8 1"
@@ -21,12 +22,14 @@ const CollectionIcon = () => (
       strokeLinejoin="round"
     />
   </svg>
-);
+));
+
+CollectionIcon.displayName = 'CollectionIcon';
 
 /**
  * Ícone de leitura para o badge (status READING)
  */
-const ReadingIcon = () => (
+const ReadingIcon = memo(() => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6 3.5V11"
@@ -42,12 +45,14 @@ const ReadingIcon = () => (
       strokeLinejoin="round"
     />
   </svg>
-);
+));
+
+ReadingIcon.displayName = 'ReadingIcon';
 
 /**
  * Ícone de wishlist para o badge (status WISHLIST)
  */
-const WishlistIcon = () => (
+const WishlistIcon = memo(() => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M6 10.5L2 6.5C1 5.5 1 4 2 3C3 2 4.5 2 5.5 3L6 3.5L6.5 3C7.5 2 9 2 10 3C11 4 11 5.5 10 6.5L6 10.5Z"
@@ -57,12 +62,14 @@ const WishlistIcon = () => (
       strokeLinejoin="round"
     />
   </svg>
-);
+));
+
+WishlistIcon.displayName = 'WishlistIcon';
 
 /**
  * Ícone de completo para o badge (status COMPLETED)
  */
-const CompletedIcon = () => (
+const CompletedIcon = memo(() => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" />
     <path
@@ -73,7 +80,9 @@ const CompletedIcon = () => (
       strokeLinejoin="round"
     />
   </svg>
-);
+));
+
+CompletedIcon.displayName = 'CompletedIcon';
 
 /**
  * Retorna o ícone correto baseado no status
@@ -97,7 +106,7 @@ const getStatusIcon = (status) => {
  * CardBadge - Badge de status do card
  * @param {string} status - Status da HQ (OWNED, READING, WISHLIST, COMPLETED)
  */
-function CardBadge({ status }) {
+const CardBadge = memo(function CardBadge({ status }) {
   const config = getStatusConfig(status);
 
   return (
@@ -112,7 +121,7 @@ function CardBadge({ status }) {
       <span className="card-badge__label">{config.label}</span>
     </div>
   );
-}
+});
 
 CardBadge.propTypes = {
   status: PropTypes.string,
