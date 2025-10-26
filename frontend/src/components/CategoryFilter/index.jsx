@@ -1,38 +1,54 @@
 import React from 'react';
 import './CategoryFilter.css';
-import todasIcon from '../../assets/figma/todas.svg';
-import colecaoIcon from '../../assets/figma/colecao.svg';
-import wishlistIcon from '../../assets/figma/wishlist.svg';
-import lendoIcon from '../../assets/figma/lendo.svg';
-import completosIcon from '../../assets/figma/completos.svg';
+import { 
+  MdGridView, 
+  MdCollections, 
+  MdFavoriteBorder, 
+  MdMenuBook, 
+  MdCheckCircle 
+} from 'react-icons/md';
 
 const CategoryFilter = ({ 
   activeFilter = 'todos', 
   categories = [],
   onFilterChange = () => {} 
 }) => {
+  // Mapa de ícones por ID de categoria usando React Icons
+  const iconMap = {
+    'todos': MdGridView,
+    'OWNED': MdCollections,
+    'WISHLIST': MdFavoriteBorder,
+    'READING': MdMenuBook,
+    'COMPLETED': MdCheckCircle,
+  };
+
   const defaultCategories = [
-    { id: 'todos', label: 'Todas', count: 0, icon: todasIcon },
-    { id: 'OWNED', label: 'Coleção', count: 0, icon: colecaoIcon },
-    { id: 'WISHLIST', label: 'Wishlist', count: 0, icon: wishlistIcon },
-    { id: 'READING', label: 'Lendo', count: 0, icon: lendoIcon },
-    { id: 'COMPLETED', label: 'Completos', count: 0, icon: completosIcon },
+    { id: 'todos', label: 'Todas', count: 0 },
+    { id: 'OWNED', label: 'Coleção', count: 0 },
+    { id: 'WISHLIST', label: 'Wishlist', count: 0 },
+    { id: 'READING', label: 'Lendo', count: 0 },
+    { id: 'COMPLETED', label: 'Completos', count: 0 },
   ];
 
   const categoriesToDisplay = categories.length > 0 ? categories : defaultCategories;
 
   return (
     <div className="category-filter">
-      {categoriesToDisplay.map((category) => (
-        <button
-          key={category.id}
-          className={`filter-button ${activeFilter === category.id ? 'active' : ''}`}
-          onClick={() => onFilterChange(category.id)}
-        >
-          <img src={category.icon} alt={category.label} className="icon" />
-          <span className="text">{category.label} ({category.count})</span>
-        </button>
-      ))}
+      {categoriesToDisplay.map((category) => {
+        const IconComponent = iconMap[category.id] || MdGridView;
+        
+        return (
+          <button
+            key={category.id}
+            className={`filter-button ${activeFilter === category.id ? 'active' : ''}`}
+            onClick={() => onFilterChange(category.id)}
+            aria-label={`Filtrar por ${category.label}`}
+          >
+            <IconComponent className="icon" aria-hidden="true" />
+            <span className="text">{category.label} ({category.count})</span>
+          </button>
+        );
+      })}
     </div>
   );
 };

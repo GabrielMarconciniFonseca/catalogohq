@@ -187,6 +187,7 @@ function App() {
   const handleDetailModalClose = useCallback(() => {
     setIsDetailModalOpen(false);
     setItemDetails(null);
+    setSelectedItem(null);
   }, []);
 
   const handleEditFromModal = useCallback((item) => {
@@ -262,7 +263,7 @@ function App() {
                 />
               </div>
             </main>
-            {selectedItem && (
+            {selectedItem && !isDetailModalOpen && (
               <ItemDetail
                 item={selectedItem}
                 isLoading={status.state === 'loading'}
