@@ -6,10 +6,88 @@ import CardRating from "../ComicCard/CardRating";
 import "./ItemDetailModal.css";
 
 const STATUS_BADGE_CONFIG = {
-  OWNED: { text: "Na Coleção", color: "#4C6EF5" },
-  WISHLIST: { text: "Na Wishlist", color: "#FFB800" },
-  ORDERED: { text: "Encomendado", color: "#FF6B6B" },
-  LENT: { text: "Emprestado", color: "#868E96" },
+  OWNED: { text: "Na Coleção", bgColor: "#4C6EF5", textColor: "#FFFFFF" },
+  WISHLIST: { text: "Na Wishlist", bgColor: "#E03131", textColor: "#FFFFFF" },
+  ORDERED: { text: "Encomendado", bgColor: "#FF6B6B", textColor: "#FFFFFF" },
+  LENT: { text: "Emprestado", bgColor: "#868E96", textColor: "#FFFFFF" },
+  READING: { text: "Lendo", bgColor: "#FFD43B", textColor: "#212529" },
+};
+
+/**
+ * Retorna o ícone SVG apropriado para cada status
+ */
+const getStatusIcon = (status) => {
+  switch (status) {
+    case "OWNED":
+      return (
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M5 1L6.66667 1C7.33333 1 8 1 8 1"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+          <path
+            d="M2 1L8 1C9.10457 1 10 1.89543 10 3V11H2V1Z"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "READING":
+      return (
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M6 3.5V11"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+          />
+          <path
+            d="M1 1.5C1 1.5 1 1.5 1 1.5L6 1.5C7.65685 1.5 9 2.34315 10 3.5V11H2V1.5H1Z"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "WISHLIST":
+      return (
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M6 10.5L2 6.5C1 5.5 1 4 2 3C3 2 4.5 2 5.5 3L6 3.5L6.5 3C7.5 2 9 2 10 3C11 4 11 5.5 10 6.5L6 10.5Z"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "COMPLETED":
+      return (
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1" />
+          <path
+            d="M4 6L5.5 7.5L8 5"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "ORDERED":
+    case "LENT":
+    default:
+      return (
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" fill="currentColor" />
+        </svg>
+      );
+  }
 };
 
 function ItemDetailModal({
@@ -70,7 +148,8 @@ function ItemDetailModal({
 
   const statusBadge = STATUS_BADGE_CONFIG[item.status] || {
     text: item.status,
-    color: "#868E96",
+    bgColor: "#868E96",
+    textColor: "#FFFFFF",
   };
 
   const imageUrl = item.imageUrl?.startsWith("http")
@@ -98,10 +177,14 @@ function ItemDetailModal({
           <div className="item-detail-modal__preview">
             <div className="item-detail-modal__preview-container">
               {/* Status Badge */}
-              <div className="item-detail-modal__badge">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <circle cx="6" cy="6" r="5" fill="currentColor" />
-                </svg>
+              <div 
+                className="item-detail-modal__badge"
+                style={{
+                  backgroundColor: statusBadge.bgColor,
+                  color: statusBadge.textColor
+                }}
+              >
+                {getStatusIcon(item.status)}
                 <span>{statusBadge.text}</span>
               </div>
 

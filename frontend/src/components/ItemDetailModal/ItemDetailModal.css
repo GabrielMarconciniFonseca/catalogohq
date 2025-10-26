@@ -10,7 +10,8 @@
   border-radius: 8px;
   padding: 0;
   background: #ffffff;
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
 }
 
@@ -84,12 +85,11 @@
   gap: 6px;
   width: fit-content;
   padding: 4px 12px;
-  background: #4c6ef5;
   border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 400;
-  color: #ffffff;
+  /* background e color aplicados via inline style */
 }
 
 .item-detail-modal__badge svg {
@@ -223,3 +223,24 @@
     right: 12px;
   }
 }
+
+/* ==============================
+   STARS CUSTOMIZATION (Modal Only)
+   ============================== */
+
+/* Task 2: Estrelas 20x20px no Modal (Figma: layout_7J6LU4) */
+.item-detail-modal__rating .card-rating__star {
+  width: 20px;
+  height: 20px;
+}
+
+/* Task 2: Gap entre estrelas 4px (Figma: layout_RJ1HW7) */
+.item-detail-modal__rating .card-rating__stars {
+  gap: 4px;
+}
+
+/* Task 3: Stroke das estrelas - REMOVIDO
+ * O stroke-width: 0.5 do SVG escala automaticamente de 6px → 20px
+ * Resultado: 0.5 × 3.33 = 1.67px (conforme Figma)
+ * NÃO aplicar stroke-width via CSS para evitar duplicação!
+ */

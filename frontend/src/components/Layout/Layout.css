@@ -30,7 +30,7 @@
 
 .layout__footer {
   background: var(--color-footer-bg, #101828);
-  color: var(--color-footer-text, #E5E7EB);
+  color: var(--color-footer-text, #e5e7eb);
   border-top: 1px solid var(--color-border-light, #374151);
   padding: var(--spacing-2xl) var(--spacing-xl);
   display: flex;
@@ -57,7 +57,7 @@
   font-size: var(--font-size-16, 16px);
   font-weight: var(--font-weight-semibold, 600);
   margin: 0;
-  color: var(--color-white, #FFFFFF);
+  color: var(--color-white, #ffffff);
   line-height: var(--line-height-normal, 1.5);
 }
 
@@ -65,7 +65,7 @@
   font-size: var(--font-size-14, 14px);
   font-weight: var(--font-weight-semibold, 600);
   margin: 0;
-  color: var(--color-white, #FFFFFF);
+  color: var(--color-white, #ffffff);
   line-height: var(--line-height-normal, 1.5);
 }
 
@@ -73,7 +73,7 @@
   font-size: var(--font-size-14, 14px);
   line-height: var(--line-height-normal, 1.5);
   margin: 0;
-  color: var(--color-footer-text, #E5E7EB);
+  color: var(--color-footer-text, #e5e7eb);
 }
 
 .layout__footer-list {
@@ -90,7 +90,7 @@
 }
 
 .layout__footer-list a {
-  color: var(--color-footer-text, #E5E7EB);
+  color: var(--color-footer-text, #e5e7eb);
   text-decoration: none;
   font-size: var(--font-size-14, 14px);
   line-height: var(--line-height-normal, 1.5);
@@ -98,7 +98,7 @@
 }
 
 .layout__footer-list a:hover {
-  color: var(--color-white, #FFFFFF);
+  color: var(--color-white, #ffffff);
 }
 
 .layout__footer-bottom {
@@ -106,7 +106,7 @@
   padding-top: var(--spacing-lg);
   border-top: 1px solid var(--color-border-light, #374151);
   font-size: var(--font-size-12, 12px);
-  color: var(--color-footer-text-muted, #9CA3AF);
+  color: var(--color-footer-text-muted, #9ca3af);
   line-height: var(--line-height-base, 1.5);
 }
 
