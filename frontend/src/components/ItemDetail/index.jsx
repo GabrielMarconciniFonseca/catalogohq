@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { buildAssetUrl } from '../../services/api.js';
 import './ItemDetail.css';
 
 const STATUS_OPTIONS = [
@@ -24,6 +25,8 @@ function ItemDetail({ item, isLoading, onUpdateStatus }) {
     onUpdateStatus(item.id, event.target.value);
   };
 
+  const coverUrl = item.imageUrl ? buildAssetUrl(item.imageUrl) : null;
+
   return (
     <article className="item-detail">
       <header>
@@ -32,10 +35,10 @@ function ItemDetail({ item, isLoading, onUpdateStatus }) {
           {item.series ? `${item.series} · ` : ''}Edição #{item.issueNumber}
         </p>
       </header>
-      {item.imageUrl && (
+      {coverUrl && (
         <figure className="item-detail__figure">
           <img 
-            src={item.imageUrl.startsWith('http') ? item.imageUrl : `${(import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api').replace('/api', '')}${item.imageUrl}`} 
+            src={coverUrl} 
             alt={`Capa da HQ ${item.title}`} 
             loading="lazy" 
           />

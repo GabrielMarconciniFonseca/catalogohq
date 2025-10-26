@@ -4,6 +4,7 @@ import CardBadge from './CardBadge';
 import CardRating from './CardRating';
 import CardTags from './CardTags';
 import ItemStatusMenu from '../ItemStatusMenu';
+import { buildAssetUrl } from '../../services/api.js';
 import './ComicCard.css';
 
 /**
@@ -70,19 +71,20 @@ const formatDate = (date) => {
  */
 const getOptimizedImageUrl = (url, size = 'medium') => {
   if (!url) return null;
-  
-  const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
-  const backendBase = baseURL.replace('/api', '');
-  
-  let fullUrl = url;
-  if (!url.startsWith('http')) {
-    fullUrl = `${backendBase}${url}`;
+
+  const absoluteUrl = buildAssetUrl(url);
+  if (!absoluteUrl) {
+    return null;
   }
-  
-  if (fullUrl.includes('?')) {
-    return `${fullUrl}&size=${size}`;
+
+  try {
+    const parsed = new URL(absoluteUrl);
+    parsed.searchParams.set('size', size);
+    return parsed.toString();
+  } catch {
+    const separator = absoluteUrl.includes('?') ? '&' : '?';
+    return `${absoluteUrl}${separator}size=${size}`;
   }
-  return `${fullUrl}?size=${size}`;
 };
 
 /**

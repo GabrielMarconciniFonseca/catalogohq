@@ -1,6 +1,36 @@
 import axios from "axios";
 import { validateApiResponse } from "../utils/arrayHelpers.js";
 
+const DEFAULT_API_BASE_URL = "http://localhost:8080/api";
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL;
+
+export const API_ORIGIN = (() => {
+  try {
+    const parsed = new URL(API_BASE_URL);
+    return parsed.origin;
+  } catch {
+    try {
+      const fallbackBase = new URL(DEFAULT_API_BASE_URL);
+      const parsed = new URL(API_BASE_URL, fallbackBase);
+      return parsed.origin;
+    } catch {
+      return API_BASE_URL.replace(/\/api\/?$/, "");
+    }
+  }
+})();
+
+export function buildAssetUrl(path) {
+  if (!path) {
+    return null;
+  }
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${API_ORIGIN}${normalizedPath}`;
+}
+
 // ============================================================================
 // CONSTANTES E TIPOS DE ERRO
 // ============================================================================
@@ -144,7 +174,7 @@ export class ServerError extends ApiError {
 // ============================================================================
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
+  baseURL: API_BASE_URL,
   timeout: 30000, // 30 segundos
   headers: {
     Accept: "application/json",

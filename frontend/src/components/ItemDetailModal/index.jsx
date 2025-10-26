@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ItemDetailTabs from "./ItemDetailTabs";
 import ItemDetailActions from "./ItemDetailActions";
 import CardRating from "../ComicCard/CardRating";
+import { buildAssetUrl } from "../../services/api.js";
 import "./ItemDetailModal.css";
 
 const STATUS_BADGE_CONFIG = {
@@ -163,11 +164,7 @@ function ItemDetailModal({
     textColor: "#FFFFFF",
   };
 
-  const imageUrl = item.imageUrl?.startsWith("http")
-    ? item.imageUrl
-    : `${(
-        import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api"
-      ).replace("/api", "")}${item.imageUrl}`;
+  const imageUrl = item.imageUrl ? buildAssetUrl(item.imageUrl) : null;
 
   return (
     <dialog

@@ -43,7 +43,7 @@ public class ItemController {
     private final FileStorageService fileStorageService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<ItemResponse> create(@Valid @RequestBody final ItemRequest request) {
         normalizeImageField(request);
         ItemResponse response = itemService.create(request);
@@ -51,7 +51,7 @@ public class ItemController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<ItemResponse> createWithCover(@Valid @RequestPart("item") final ItemRequest request,
             @RequestPart(value = "cover", required = false) final MultipartFile cover) {
         prepareCover(request, cover);
