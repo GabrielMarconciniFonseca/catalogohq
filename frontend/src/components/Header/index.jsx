@@ -21,7 +21,7 @@ function Header({
       <div className="header__container">
         <div className="header__brand">
           <img src={figmaHeaderIcon} alt="Ícone Catálogo HQ" className="header__brand-icon" />
-          <span className="header__brand-text">HQ Catalog</span>
+          <span className="header__brand-text">Catalogo HQ</span>
         </div>
         {hasSearch && (
           <div className="header__search" role="search">

@@ -19,8 +19,11 @@ function SearchBar({ filters, onChange, isLoading }) {
   ), [isLoading]);
 
   return (
-    <div className="search-bar">
+    <div className="search-bar" role="search">
       <div className="search-bar__input-container">
+        <label htmlFor="search-term" className="sr-only">
+          Buscar HQs
+        </label>
         <img
           src={searchIcon}
           alt=""
@@ -32,11 +35,13 @@ function SearchBar({ filters, onChange, isLoading }) {
         <input
           id="search-term"
           name="term"
+          type="search"
           value={searchTerm}
           onChange={handleChange}
           placeholder="Buscar HQs, séries, editoras..."
-          aria-label="Buscar HQ"
+          aria-label="Buscar HQs, séries e editoras"
           className="search-bar__input"
+          autoComplete="off"
         />
       </div>
       {loadingText && (

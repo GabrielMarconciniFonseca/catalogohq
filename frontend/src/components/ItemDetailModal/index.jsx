@@ -100,6 +100,7 @@ function ItemDetailModal({
 }) {
   const dialogRef = useRef(null);
   const [currentTab, setCurrentTab] = useState("info");
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -108,9 +109,15 @@ function ItemDetailModal({
     if (isOpen) {
       dialog.showModal();
       document.body.style.overflow = "hidden";
-    } else {
-      dialog.close();
-      document.body.style.overflow = "";
+      setIsExiting(false);
+    } else if (!isOpen && dialog.open) {
+      // Inicia animação de saída
+      setIsExiting(true);
+      setTimeout(() => {
+        setIsExiting(false);
+        dialog.close();
+        document.body.style.overflow = "";
+      }, 300); // Ajustado para 0.3s para coincidir com a animação
     }
 
     return () => {
@@ -120,12 +127,16 @@ function ItemDetailModal({
 
   const handleBackdropClick = (event) => {
     if (event.target === dialogRef.current) {
-      onClose();
+      handleCloseClick();
     }
   };
 
   const handleCloseClick = () => {
-    onClose();
+    setIsExiting(true);
+    setTimeout(() => {
+      setIsExiting(false);
+      onClose();
+    }, 300); // Ajustado para 0.3s para coincidir com a animação
   };
 
   const handleTabChange = (tabName) => {
@@ -161,7 +172,7 @@ function ItemDetailModal({
   return (
     <dialog
       ref={dialogRef}
-      className="item-detail-modal"
+      className={`item-detail-modal${isExiting ? " modal-exit" : ""}`}
       onClick={handleBackdropClick}
       aria-labelledby="modal-title"
       aria-modal="true"

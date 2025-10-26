@@ -33,23 +33,26 @@ const CategoryFilter = ({
   const categoriesToDisplay = categories.length > 0 ? categories : defaultCategories;
 
   return (
-    <div className="category-filter">
+    <nav className="category-filter" aria-label="Filtros de categoria">
       {categoriesToDisplay.map((category) => {
         const IconComponent = iconMap[category.id] || MdGridView;
+        const isActive = activeFilter === category.id;
         
         return (
           <button
             key={category.id}
-            className={`filter-button ${activeFilter === category.id ? 'active' : ''}`}
+            className={`filter-button ${isActive ? 'active' : ''}`}
             onClick={() => onFilterChange(category.id)}
-            aria-label={`Filtrar por ${category.label}`}
+            aria-label={`Filtrar por ${category.label}, ${category.count} ${category.count === 1 ? 'item' : 'itens'}`}
+            aria-pressed={isActive}
+            type="button"
           >
             <IconComponent className="icon" aria-hidden="true" />
             <span className="text">{category.label} ({category.count})</span>
           </button>
         );
       })}
-    </div>
+    </nav>
   );
 };
 

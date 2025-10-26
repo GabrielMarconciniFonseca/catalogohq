@@ -7,7 +7,8 @@
   );
   border-bottom: var(--border-width-thin, 1px) solid
     var(--color-border-light, rgba(0, 0, 0, 0.1));
-  padding: var(--spacing-xl, 24px) var(--spacing-2xl, 32px) 0;
+  /* CORREÇÃO FIGMA: Remove padding superior e restaura rodapé de 1px conforme frame 61:534 */
+  padding: 0 var(--spacing-2xl, 32px) 1px;
   display: flex;
   align-items: center;
   position: sticky;
@@ -27,6 +28,8 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-2xl, 32px);
+  /* CORREÇÃO FIGMA: Distribui brand, search e actions conforme layout do Figma */
+  justify-content: space-between;
 }
 
 .header__brand {
@@ -47,27 +50,32 @@
   font-size: var(--font-size-24, 24px);
   line-height: var(--line-height-base, 1.5em);
   color: var(--color-white, #ffffff);
-  letter-spacing: -0.01em;
+  /* CORREÇÃO FIGMA: Neutraliza letter-spacing para kerning natural do frame */
+  letter-spacing: 0;
   white-space: nowrap;
 }
 
 .header__search {
-  flex: 1;
+  /* CORREÇÃO FIGMA: Ocupa espaço central disponível e centraliza o input */
+  flex: 1 1 auto;
   min-width: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .header__search > * {
   width: 100%;
-  max-width: 576px;
+  /* CORREÇÃO FIGMA: Mantém input na largura de referência do Figma */
+  max-width: var(--search-max-width-desktop, 576px);
 }
 
 .header__right {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-left: auto;
+  /* CORREÇÃO FIGMA: Remove margin-left:auto para não interferir no espaçamento */
+  flex-shrink: 0;
 }
 
 .header__actions {
@@ -81,7 +89,8 @@
   height: 36px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
+  /* CORREÇÃO FIGMA: Remove halo branco; mantém ícone transparente conforme frame */
+  background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -145,15 +154,21 @@
 
 @media (max-width: 1200px) {
   .header {
-    padding: var(--spacing-xl, 24px) var(--header-padding-tablet, 16px) 0;
+    /* CORREÇÃO FIGMA: Mantém ritmo vertical sem perder borda inferior */
+    padding: var(--spacing-lg, 16px) var(--header-padding-tablet, 24px) 1px;
   }
 
   .header__container {
     gap: var(--spacing-xl, 24px);
   }
 
+  .header__search {
+    /* CORREÇÃO FIGMA: Suaviza transição antes do breakpoint mobile */
+    flex: 1 1 var(--search-max-width-tablet, 520px);
+  }
+
   .header__search > * {
-    max-width: var(--search-max-width-tablet, 400px);
+    max-width: var(--search-max-width-tablet, 520px);
   }
 }
 

@@ -120,8 +120,9 @@ const ComicCard = memo(function ComicCard({ item, onSelect, onStatusChanged }) {
     onSelect(item.id);
   }, [onSelect, item.id]);
 
-  const handleKeyPress = useCallback((e) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
       onSelect(item.id);
     }
   }, [onSelect, item.id]);
@@ -129,6 +130,16 @@ const ComicCard = memo(function ComicCard({ item, onSelect, onStatusChanged }) {
   const handleBadgeClick = useCallback((e) => {
     e.stopPropagation();
     setShowStatusMenu(!showStatusMenu);
+  }, [showStatusMenu]);
+
+  const handleBadgeKeyDown = useCallback((e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      setShowStatusMenu(!showStatusMenu);
+    } else if (e.key === 'Escape' && showStatusMenu) {
+      setShowStatusMenu(false);
+    }
   }, [showStatusMenu]);
 
   const handleStatusChanged = useCallback((itemId, newStatus) => {
@@ -152,10 +163,10 @@ const ComicCard = memo(function ComicCard({ item, onSelect, onStatusChanged }) {
   }, [item.series, item.issue]);
 
   return (
-    <div 
+    <article 
       className="comic-card"
       onClick={handleClick}
-      onKeyPress={handleKeyPress}
+      onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
       aria-label={`Ver detalhes de ${item.title}`}
@@ -192,15 +203,22 @@ const ComicCard = memo(function ComicCard({ item, onSelect, onStatusChanged }) {
         <div 
           className="comic-card__badge-wrapper"
           onClick={handleBadgeClick}
+          onKeyDown={handleBadgeKeyDown}
           role="button"
           tabIndex={0}
           aria-label={`Mudar status de ${item.title}`}
+          aria-expanded={showStatusMenu}
+          aria-haspopup="menu"
         >
           <CardBadge status={itemStatus} />
           
           {/* Menu de mudança de status */}
           {showStatusMenu && (
-            <div className="comic-card__status-menu-container">
+            <div 
+              className="comic-card__status-menu-container"
+              role="menu"
+              aria-label="Opções de status"
+            >
               <ItemStatusMenu
                 itemId={item.id}
                 currentStatus={itemStatus}
@@ -242,7 +260,7 @@ const ComicCard = memo(function ComicCard({ item, onSelect, onStatusChanged }) {
           <CardTags tags={item.tags} maxTags={3} />
         </div>
       </div>
-    </div>
+    </article>
   );
 });
 
