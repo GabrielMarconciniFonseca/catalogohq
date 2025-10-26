@@ -175,6 +175,19 @@ function ItemDetailModal({
 
           {/* Comic Preview Section */}
           <div className="item-detail-modal__preview">
+            {/* Comic Image - LEFT */}
+            {imageUrl && (
+              <div className="item-detail-modal__image-container">
+                <img
+                  src={imageUrl}
+                  alt={`Capa da HQ ${item.title}`}
+                  className="item-detail-modal__image"
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            {/* Info Container - RIGHT */}
             <div className="item-detail-modal__preview-container">
               {/* Status Badge */}
               <div 
@@ -267,18 +280,6 @@ function ItemDetailModal({
                 </span>
               </div>
             </div>
-
-            {/* Comic Image */}
-            {imageUrl && (
-              <div className="item-detail-modal__image-container">
-                <img
-                  src={imageUrl}
-                  alt={`Capa da HQ ${item.title}`}
-                  className="item-detail-modal__image"
-                  loading="lazy"
-                />
-              </div>
-            )}
           </div>
         </div>
 
