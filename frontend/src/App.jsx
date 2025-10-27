@@ -20,7 +20,7 @@ import {
   fetchItemById,
   fetchItems,
   updateItemStatus,
-} from './services/api.js';
+} from './services/items.js';
 import { ensureArray, SAFE_INITIAL_STATES } from './utils/arrayHelpers.js';
 import './styles/App.css';
 

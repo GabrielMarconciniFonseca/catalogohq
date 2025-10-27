@@ -13,22 +13,27 @@ O projeto utiliza variáveis de ambiente para configurar diferentes aspectos da 
 ### Variáveis Disponíveis
 
 #### `VITE_API_BASE_URL`
+
 URL base da API backend (Spring Boot).
+
 - **Desenvolvimento**: `http://localhost:8080/api`
 - **Produção**: URL da sua API em produção (ex: `https://api.seudominio.com/api`)
 
 #### `VITE_GOOGLE_AUTH_URL`
+
 URL para autenticação OAuth com Google.
+
 - **Padrão**: `/api/auth/google`
 - Modifique se sua rota de autenticação for diferente
 
 ### Como Usar
 
 1. Copie o arquivo `.env.example` para criar seus ambientes:
+
    ```bash
    # Para desenvolvimento
    cp .env.example .env.development
-   
+
    # Para produção
    cp .env.example .env.production
    ```

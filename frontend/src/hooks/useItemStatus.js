@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { updateItemStatus as updateItemStatusApi } from "../services/api";
+import { updateItemStatus as updateItemStatusApi } from "../services/items.js";
 import { getStatusLabel } from "../constants/comicStatus";
 
 /**

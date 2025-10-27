@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { login as loginRequest, registerUser, setAuthToken } from '../services/api.js';
+import { login as loginRequest, registerUser, setAuthToken } from '../services/auth.js';
 
 const AuthContext = createContext();
 const STORAGE_KEY = 'catalogo.auth';
